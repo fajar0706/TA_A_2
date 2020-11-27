@@ -10,5 +10,14 @@ Repository untuk pengerjaan Tugas Akhir APAP 2020/2021
 4. Azna Ajeng Nurfaiza - 1806146884
 5. Diva Amelia - 1806146915
 
+#### Kontrak Tahap 1 Tugas Akhir
+|       NPM     | Nama Lengkap  |Fitur yang akan diselesaikan|
+| ------------- | --------------------- |-------------|
+| 1806146940  | Fajar Anugerah Subekti |  5,6           |
+| 1806191093  | Akhmad Diponegoro Widodo  |  2,3           |
+| 1806191370  | Astrid Chaerida  | 1,11            |
+| 1806146884 | Azna Ajeng Nurfaiza | 4,7            |
+| 1806146915 | Diva Amelia |10,13             |
+
 
 
