@@ -7,7 +7,7 @@
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 <body>
-<nav th:replace="fragments/fragment :: navbar (brand='Home')"></nav>
+<nav th:replace="fragments/fragment :: navbar ('Home')"></nav>
 <div class="container-fluid">
     <h2 th:text=" 'Hello '+ ${#httpServletRequest.remoteUser} + ' !'">Login as</h2>
 </div>
