@@ -1,4 +1,4 @@
-package apap.ta.sipayroll.service;
+package apap.ta.sipayroll.security;
 
 import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.repository.UserDb;
@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
