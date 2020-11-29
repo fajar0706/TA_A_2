@@ -1,47 +1,99 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title> Fragment </title>
+
     <head th:fragment="css">
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/css/sipayroll.css}">
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     </head>
 
     <!--    jquery,ajax, and bootstrap.js-->
+
     <head th:fragment="js">
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/esm/popper.min.js"></script>
         <script th:src="@{/js/bootstrap.min.js}"></script>
+        <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     </head>
 </head>
+
 <body>
-<nav th:fragment="navbar(page)" class="navbar navbar-expand-lg navbar-light bg-light">
-    <a th:text="SIPAYROLL" class="navbar-brand font-weight-bold text-primary" href="#"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <!-- <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a th:text="SIPAYROLL" class="navbar-brand font-weight-bold text-primary" href="#"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <ul class="navbar-nav mr-auto">
-            <a class="nav-item nav-link active text-secondary" th:href="@{/}">
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav mr-auto">
+                <a class="nav-item nav-link active text-secondary" th:href="@{/}">
                 Home <span class="sr-only"> (current)</span>
             </a>
-        </ul>
-        <ul class="navbar-nav">
-            <a th:text="${current}"></a>
-        </ul>
-        <ul class="navbar-nav pull-right">
-            <a class="nav-item nav-link active" th:href="@{/logout}">Logout</a>
-        </ul>
-    </div>
-    <div>
-        <a><span th:text="${page}"></span></a>
-    </div>
-</nav>
+            </ul>
+            <ul class="navbar-nav">
+                <a th:text="${current}"></a>
+            </ul>
+            <ul class="navbar-nav pull-right">
+                <a class="nav-item nav-link active" th:href="@{/logout}">Logout</a>
+            </ul>
+        </div>
+        <div>
+            <a><span th:text="${page}"></span></a>
+        </div>
+    </nav> -->
+    <nav th:fragment="navbar" class="navbar navbar-expand-lg  navbar-light fontSipes " style="background-color:#329ec8; ">
+        <a class="navbar-brand " style="color: white;" id="logo" th:href="@{/}">SIPAYROLL</a>
+        <div class="collapse navbar-collapse text-navbar" style="color: white;" id="navbarNavDropdown">
+            <ul class="navbar-nav fontsipayroll">
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${#request.requestURI == '/' ? 'text-white':''}" th:href="@{/}">Home</a>
+                </li>
 
-<!--<footer th:fragment="footer(date)">-->
-<!--    <p th:text="'Made with Love by Azna '+ ${date}">-->
-<!--</footer>-->
+            </ul>
+            <ul class="navbar-nav">
+                <a th:text="${current}"></a>
+            </ul>
+            <ul class="navbar-nav fontsipayroll">
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${#request.requestURI == '/gaji' ? 'text-white':''}" th:href="@{/}">Gaji</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav  fontsipayroll">
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${#request.requestURI == '/lembur' ? 'text-white':''}" th:href="@{/}">Lembur</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav fontsipayroll">
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${#request.requestURI == '/bonus' ? 'text-white':''}" th:href="@{/}">Bonus</a>
+                </li>
+            </ul>
+            <!-- <ul class="navbar-nav fontsipayroll mr-sm-2">
+                <a class="nav-item nav-link active" th:classappend="${#request.requestURI == '/' ? 'text-white':''}" th:href="@{/logout}">Logout</a>
+            </ul> -->
+            <ul class="navbar-nav fontsipayroll ml-auto">
+                <li class="nav-item dropdown fontsipayroll">
+                    <a class="nav-link dropdown-toggle fontsipayroll" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <!-- <h2 class="fontsipayroll fas fa-user" th:classappend="${#request.requestURI == '/' ? 'text-white':''}" th:text=" 'Hello '+ ${#httpServletRequest.remoteUser} + ' !'">Login as</h2> -->
+                        <i style="font: 'Poppins';" class="fas fa-user-alt text-white" th:text=" ' Hello, '+ ${#httpServletRequest.remoteUser} + ' !' "></i></a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-info " aria-labelledby="navbarDropdownMenuLink-4 ">
+                        <!-- <a class="dropdown-item " href="# ">My account</a> -->
+                        <a class="dropdown-item " th:href="@{/logout} ">Logout</a>
+                    </div>
+                </li>
+
+            </ul>
+
+
+        </div>
+    </nav>
+    <!--<footer th:fragment="footer(date) ">-->
+    <!--    <p th:text=" 'Made with Love by Azna '+ ${date} ">-->
+    <!--</footer>-->
 </body>
+
 </html>
