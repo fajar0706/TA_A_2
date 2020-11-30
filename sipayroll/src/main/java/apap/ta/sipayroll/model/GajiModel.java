@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name="gaji")
@@ -48,6 +49,11 @@ public class GajiModel implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private UserModel user;
+
+    @OneToMany(mappedBy="gaji",fetch=FetchType.LAZY,cascade= CascadeType.ALL)
+    private List<LemburModel> listLembur;
+
+    
 
     public Integer getId() {
         return id;
@@ -103,5 +109,12 @@ public class GajiModel implements Serializable {
 
     public void setUser(UserModel user) {
         this.user = user;
+    }
+    public List<LemburModel> getListLembur() {
+        return this.listLembur;
+    }
+
+    public void setListLembur(List<LemburModel> listLembur) {
+        this.listLembur = listLembur;
     }
 }
