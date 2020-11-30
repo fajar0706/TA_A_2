@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -16,8 +17,29 @@ public class GajiServiceImpl implements GajiService  {
 
     @Override
     public void addGaji(GajiModel gaji) {
-        gaji.setStatusPersetujuan("0");
+        gaji.setStatusPersetujuan(0);
+        gaji.setUserPengaju(gaji.getUser());
         gajiDb.save(gaji);
+    }
+
+    @Override
+    public List<GajiModel> findAllGaji() {
+        return gajiDb.findAll();
+    }
+
+    @Override
+    public List<GajiModel> getGajiList() {
+        return gajiDb.findAll();
+    }
+
+    @Override
+    public GajiModel getGajiById(Integer id) {
+        return gajiDb.findById(id).get();
+    }
+
+    @Override
+    public void deleteGaji(GajiModel gaji) {
+        gajiDb.delete(gaji);
     }
 
 

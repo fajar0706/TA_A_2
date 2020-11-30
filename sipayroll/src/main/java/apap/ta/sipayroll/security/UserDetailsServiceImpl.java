@@ -3,6 +3,7 @@ package apap.ta.sipayroll.security;
 import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.repository.UserDb;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

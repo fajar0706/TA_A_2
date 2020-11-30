@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -16,7 +17,7 @@ public class UserModel implements Serializable {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+        private String id;
 
     @NotNull
     @Size(max = 50)
@@ -33,6 +34,46 @@ public class UserModel implements Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private RoleModel role;
+
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private GajiModel gaji;
+
+    @OneToMany(mappedBy = "userPengaju", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<GajiModel> pengajuList;
+
+    @OneToMany(mappedBy = "userPenyetuju", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<GajiModel> penyetujuList;
+
+    public GajiModel getGaji() {
+        return gaji;
+    }
+
+    public void setGaji(GajiModel gaji) {
+        this.gaji = gaji;
+    }
+
+    public List<GajiModel> getPengajuList() {
+        return pengajuList;
+    }
+
+    public void setPengajuList(List<GajiModel> pengajuList) {
+        this.pengajuList = pengajuList;
+    }
+
+    public List<GajiModel> getPenyetujuList() {
+        return penyetujuList;
+    }
+
+    public void setPenyetujuList(List<GajiModel> penyetujuList) {
+        this.penyetujuList = penyetujuList;
+    }
 
     public String getId() {
         return id;
