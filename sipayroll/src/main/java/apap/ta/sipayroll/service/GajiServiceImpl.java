@@ -16,7 +16,8 @@ public class GajiServiceImpl implements GajiService  {
 
     @Override
     public void addGaji(GajiModel gaji) {
-        gaji.setStatusPersetujuan("0");
+        gaji.setStatusPersetujuan(0);
+        gaji.setUserPengaju(gaji.getUser());
         gajiDb.save(gaji);
     }
 

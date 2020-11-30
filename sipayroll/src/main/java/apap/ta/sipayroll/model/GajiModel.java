@@ -1,5 +1,8 @@
 package apap.ta.sipayroll.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -13,42 +16,60 @@ public class GajiModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @NotNull
     @Column(name="gaji_pokok", nullable = false)
-    private String gajiPokok;
+    private Integer gajiPokok;
 
     @NotNull
     @Column(name="status_persetujuan", nullable = false)
-    private String statusPersetujuan;
+    private Integer statusPersetujuan;
 
     @NotNull
     @Column(name="tanggal_masuk", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate tanggalMasuk;
 
-    public Long getId() {
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "uuid_pengaju",referencedColumnName = "id",nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private UserModel userPengaju;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "uuid_penyetuju",referencedColumnName = "id",nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private UserModel userPenyetuju;
+
+    @OneToOne
+    @JoinColumn(name = "uuid_user",referencedColumnName = "id",nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private UserModel user;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getGajiPokok() {
+    public Integer getGajiPokok() {
         return gajiPokok;
     }
 
-    public void setGajiPokok(String gajiPokok) {
+    public void setGajiPokok(Integer gajiPokok) {
         this.gajiPokok = gajiPokok;
     }
 
-    public String getStatusPersetujuan() {
+    public Integer getStatusPersetujuan() {
         return statusPersetujuan;
     }
 
-    public void setStatusPersetujuan(String statusPersetujuan) {
+    public void setStatusPersetujuan(int statusPersetujuan) {
         this.statusPersetujuan = statusPersetujuan;
     }
 
@@ -58,5 +79,29 @@ public class GajiModel implements Serializable {
 
     public void setTanggalMasuk(LocalDate tanggalMasuk) {
         this.tanggalMasuk = tanggalMasuk;
+    }
+
+    public UserModel getUserPengaju() {
+        return userPengaju;
+    }
+
+    public void setUserPengaju(UserModel userPengaju) {
+        this.userPengaju = userPengaju;
+    }
+
+    public UserModel getUserPenyetuju() {
+        return userPenyetuju;
+    }
+
+    public void setUserPenyetuju(UserModel userPenyetuju) {
+        this.userPenyetuju = userPenyetuju;
+    }
+
+    public UserModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 }

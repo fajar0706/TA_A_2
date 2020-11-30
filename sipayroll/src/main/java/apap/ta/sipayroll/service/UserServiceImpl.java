@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -34,6 +36,11 @@ public class UserServiceImpl implements UserService {
     public Boolean passwordMatch(String pass1, String pass2) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(pass1, pass2);
+    }
+
+    @Override
+    public List<UserModel> findAllUser() {
+        return userDb.findAll();
     }
 }
 
