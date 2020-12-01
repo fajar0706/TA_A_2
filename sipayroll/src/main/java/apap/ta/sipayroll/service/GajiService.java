@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface GajiService {
     void addGaji(GajiModel gaji);
+
     List<GajiModel> findAllGaji();
 
     List<GajiModel> getGajiList();
@@ -15,4 +16,7 @@ public interface GajiService {
     void deleteGaji(GajiModel gaji);
 
     GajiModel changeGaji(GajiModel gaji);
+
+    List<Integer> totalPendapatan();
+
 }

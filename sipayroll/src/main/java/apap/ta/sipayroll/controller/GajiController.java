@@ -72,6 +72,8 @@ public class GajiController {
     public String viewGaji(
             @PathVariable(value = "id") Integer id, Model model){
         GajiModel gaji = gajiService.getGajiById(id);
+//        List<Integer> listTotalPendapatan = gajiService.totalPendapatan();
+//        model.addAttribute("listTotalPendapatan", listTotalPendapatan);
         model.addAttribute("gaji", gaji);
         return "view-gaji";
     }
@@ -93,6 +95,7 @@ public class GajiController {
         model.addAttribute("gaji",gaji);
         return "form-update-gaji";
     }
+
 
 //    @PostMapping("/gaji/ubah/{id}")
 //    public String changeGajiFormSubmit(

@@ -7,7 +7,7 @@
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 <body>
-<nav th:replace="fragments/fragment :: navbar('View All Gaji')"></nav>
+<nav th:replace="fragments/fragment :: navbar"></nav>
 
 <div class="container-fluid">
     <br>
@@ -21,7 +21,7 @@
             <tr>
                 <th> Nama Pegawai </th>
                 <th> Gaji </th>
-<!--                <th> Total Pendapatan </th>-->
+                <th> Total Pendapatan </th>
                 <th> Lihat </th>
                 <th> Ubah Data </th>
                 <th> Hapus </th>
@@ -29,10 +29,11 @@
             </tr>
             </thead>
             <tbody>
-            <div th:each="gaji: ${listGaji}">
+            <div th:each="gaji, iterationStatus : ${listGaji}">
                 <td th:text="${gaji.user.username}"></td>
                 <td th:text="${gaji.gajiPokok}"></td>
-<!--                <td th:text="${totalPendapatan}"></td>-->
+                <td th:text="${gaji.gajiPokok}"></td>
+                <!--                <td th:text="*{listTotalPendapatan[__${iterationStatus.index}__]}"></td>-->
                 <td><a class="btn btn-info" th:href="@{/gaji/}+${gaji.id}" >Lihat</a></td>
                 <td><a class="btn btn-warning" th:href="@{/gaji/ubah/}+${gaji.id}">Ubah</a></td>
                 <td><a class="btn btn-danger" th:href="@{/gaji/delete/id/}+${gaji.id}">Hapus </a></td>
@@ -42,6 +43,7 @@
             </div>
             </tbody>
         </table>
+        <th><a class="btn btn-info btn-lg col-2 " th:href="@{/gaji/add}"> Tambah Gaji</a></th>
     </div>
 
 </div>
