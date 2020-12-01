@@ -18,7 +18,6 @@ public class GajiServiceImpl implements GajiService  {
     @Override
     public void addGaji(GajiModel gaji) {
         gaji.setStatusPersetujuan(0);
-        gaji.setUserPengaju(gaji.getUser());
         gajiDb.save(gaji);
     }
 
@@ -42,5 +41,19 @@ public class GajiServiceImpl implements GajiService  {
         gajiDb.delete(gaji);
     }
 
+    @Override
+    public GajiModel changeGaji(GajiModel gaji) {
+        GajiModel targetGaji = gajiDb.findById(gaji.getId()).get();
+        try {
+            targetGaji.setStatusPersetujuan(0);
+//            targetGaji.setTanggalMasuk(gaji.getTanggalMasuk());
+            targetGaji.setGajiPokok(gaji.getGajiPokok());
+//            targetGaji.setUserPenyetuju(gaji.getUserPenyetuju());
+            gajiDb.save(targetGaji);
+            return targetGaji;
+        } catch (NullPointerException nullException) {
+            return null;
+        }
+    }
 
 }

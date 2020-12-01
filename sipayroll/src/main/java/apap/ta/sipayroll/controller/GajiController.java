@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -40,24 +41,22 @@ public class GajiController {
         UserModel user = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 //        System.out.println(user );
 //        String role = user.getRole().getNama();
-        List<UserModel> userTarget = userService.findAllUser();
-        gaji.setUser(user);
         List<GajiModel> listGaji = gajiService.getGajiList();
+        UserModel userTarget = userService.getUserModelByUsername(gaji.getUser().getUsername());
+        gaji.setUser(userTarget);
+        gaji.setUserPengaju(user);
         String text = "Gaji Sudah Pernah Di tambahkan";
-        for (int i = 0; i < userTarget.size(); i++) {
-            for (int j = 0; j < listGaji.size(); j++) {
-                if(listGaji.get(j).getUser() == userTarget.get(i).getGaji().getUser()){
-                    model.addAttribute("text",text);
-                    return "add-gaji";
+        for (int i = 0; i < listGaji.size(); i++) {
+            if(listGaji.get(i).getUser() == userTarget){
+                model.addAttribute("text",text);
+                return "add-gaji";
 
-                }
             }
         }
-
         gajiService.addGaji(gaji);
-        text = "Gaji Pegawai "+  user.getUsername() + " berhasil ditambahkan";
+        text = "Gaji Pegawai "+  userTarget.getUsername() + " berhasil ditambahkan";
         model.addAttribute("text",text);
-        model.addAttribute("user",user);
+        model.addAttribute("user",userTarget);
         model.addAttribute("gaji", gaji);
         return "add-gaji";
     }
@@ -83,15 +82,50 @@ public class GajiController {
         GajiModel gaji = gajiService.getGajiById(id);
         gajiService.deleteGaji(gaji);
         UserModel user = userService.getUserModelByUsername(gaji.getUser().getUsername());
-
-        List<GajiModel> listGaji = gajiService.getGajiList();
-        for (int i = 0; i < listGaji.size(); i++) {
-            if(listGaji.get(i).getUser() == user){
-            }
-        }
         model.addAttribute("user", user);
         return "delete-gaji";
     }
+    @GetMapping("/gaji/ubah/{id}")
+    public String changeGajiFormPage(
+            @PathVariable Integer id,
+            Model model){
+        GajiModel gaji = gajiService.getGajiById(id);
+        model.addAttribute("gaji",gaji);
+        return "form-update-gaji";
+    }
 
-
+//    @PostMapping("/gaji/ubah/{id}")
+//    public String changeGajiFormSubmit(
+//            @PathVariable Integer id,
+//            @ModelAttribute GajiModel gaji,
+//            Model model){
+//        UserModel user = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+//        UserModel userTarget = userService.getUserModelByUsername(gaji.getUser().getUsername());
+//        String text = "Anda tidak dapat merubah gaji anda sendiri";
+//        if(userTarget == user){
+//            model.addAttribute("text" ,text);
+//            return "ubah-data-gaji";
+//        }
+//        gaji.setUser(userTarget);
+//        gaji.setUserPengaju(user);
+//        GajiModel newGaji = gajiService.changeGaji(gaji);
+//        text = "Gaji " + userTarget.getUsername() + " berhasil di ubah";
+//        model.addAttribute("text" ,text);
+//        model.addAttribute("gaji", newGaji);
+//        return "ubah-data-gaji";
+//    }
+//    @RequestMapping(value = "/gaji/ubah/{id}", method = RequestMethod.POST, params = {"gajiPokok"})
+//    public String ubahKapasitasRuanganSubmit(@PathVariable Integer id, @ModelAttribute GajiModel gaji, Model model, HttpServletRequest request){
+//        Integer gajiPokok =  Integer.valueOf(request.getParameter("gajiPokok"));
+//        model.addAttribute("gajiPokok", gajiPokok);
+//
+//        GajiModel gaji = ruanganService.getRuanganByIdRuangan(id).get();
+//
+//        ruang.setKapasitas(kap);
+//        ruanganService.saveRuangan(ruang);
+//
+//        String message = "Kapasitas ruangan " + ruang.getNama() + " berhasil diubah menjadi " + ruang.getKapasitas() +".";
+//        model.addAttribute("message", message);
+//        return "sukses-tambah-fasilitas";
+//    }
 }

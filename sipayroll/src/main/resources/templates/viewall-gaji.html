@@ -34,7 +34,7 @@
                 <td th:text="${gaji.gajiPokok}"></td>
 <!--                <td th:text="${totalPendapatan}"></td>-->
                 <td><a class="btn btn-info" th:href="@{/gaji/}+${gaji.id}" >Lihat</a></td>
-                <td><a class="btn btn-warning" th:href="@{/}">Ubah</a></td>
+                <td><a class="btn btn-warning" th:href="@{/gaji/ubah/}+${gaji.id}">Ubah</a></td>
                 <td><a class="btn btn-danger" th:href="@{/gaji/delete/id/}+${gaji.id}">Hapus </a></td>
 
 
