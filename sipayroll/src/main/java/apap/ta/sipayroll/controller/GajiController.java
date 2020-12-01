@@ -50,6 +50,7 @@ public class GajiController {
             if(listGaji.get(i).getUser() == userTarget){
                 model.addAttribute("text",text);
                 return "add-gaji";
+
             }
         }
         gajiService.addGaji(gaji);
@@ -86,7 +87,6 @@ public class GajiController {
         model.addAttribute("user", user);
         return "delete-gaji";
     }
-
     @GetMapping("/gaji/ubah/{id}")
     public String changeGajiFormPage(
             @PathVariable Integer id,
@@ -95,6 +95,7 @@ public class GajiController {
         model.addAttribute("gaji",gaji);
         return "form-update-gaji";
     }
+
 
 //    @PostMapping("/gaji/ubah/{id}")
 //    public String changeGajiFormSubmit(

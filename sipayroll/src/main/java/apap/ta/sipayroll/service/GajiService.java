@@ -17,5 +17,6 @@ public interface GajiService {
 
     GajiModel changeGaji(GajiModel gaji);
 
-//    List<Integer> totalPendapatan();
+    List<Integer> totalPendapatan();
+
 }

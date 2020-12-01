@@ -61,24 +61,25 @@ public class GajiServiceImpl implements GajiService  {
         }
     }
 
-//    @Override
-//    public List<Integer> totalPendapatan(){
-//        List<GajiModel> listgaji = gajiDb.findAll();
-//        List<Integer> jumlahTotalPendapatan = new ArrayList<Integer>();
-//
-//        for(GajiModel x: listgaji){
-//            Integer tempGaji = x.getGajiPokok();
-//            Integer tempKompensasi = x.getKompensasi().getKompensasiPerJam();
-//
-//            Integer jamMulai = x.getKompensasi().getWaktuMulai().getHours();
-//            Integer jamAkhir = x.getKompensasi().getWaktuSelesai().getHours();
-//            Integer tempJam = jamAkhir-jamMulai;
-//
-//            Integer kompensasi = tempKompensasi*tempJam;
-//            Integer total = tempGaji + kompensasi;
-//            jumlahTotalPendapatan.add(total);
-//        }
-//        return jumlahTotalPendapatan;
-//    }
+   @Override
+   public List<Integer> totalPendapatan(){
+       List<GajiModel> listgaji = gajiDb.findAll();
+       List<Integer> jumlahTotalPendapatan = new ArrayList<Integer>();
+
+       for(GajiModel x: listgaji){
+           Integer tempGaji = x.getGajiPokok();
+           Integer tempKompensasi = x.getKompensasi().getKompensasiPerJam();
+
+           Integer jamMulai = x.getKompensasi().getWaktuMulai().getHours();
+           Integer jamAkhir = x.getKompensasi().getWaktuSelesai().getHours();
+           Integer tempJam = jamAkhir-jamMulai;
+
+           Integer kompensasi = tempKompensasi*tempJam;
+           Integer total = tempGaji + kompensasi;
+           jumlahTotalPendapatan.add(total);
+       }
+       return jumlahTotalPendapatan;
+   }
+
 
 }
