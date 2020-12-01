@@ -9,6 +9,7 @@
 </head>
 
 <body>
+<<<<<<< HEAD
 
 
     <!-- <h4 class="text-center" style="font-family: Poppins;font-weight: bold;">Add Gaji</h4>
@@ -69,6 +70,37 @@
             </div>
         </form>
     </div>
+=======
+<nav th:replace="fragments/fragment :: navbar"></nav>
+
+<div class="card m-5 p-3">
+    <h4 class="text-center" style="font-family: Poppins;font-weight: bold;">Tambah Gaji</h4>
+    <form th:action="@{/gaji/add}" th:object="${gaji}" method="POST">
+        <div class="form-group row">
+            <label for="uuid_user" class="col-sm-2 col-form-label" style="font-weight: bold">UUID User</label>
+            <div class="col-sm-10">
+                <select class="form-control form-control-lg" id="uuid_user" th:field="${gaji.user}">
+                    <option th:value="null" selected>Pilih UUID</option>
+                    <option th:each="user : ${listUser}" th:value="${user.id}" th:text="${user.username}"></option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="gajiPokok" class="col-sm-2 col-form-label" style="font-weight: bold">Gaji Pokok</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="gajiPokok" th:field="${gaji.gajiPokok}" placeholder="Masukkan Gaji Pokok (e.g : 50000)">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="tanggalMasuk" class="col-sm-2 col-form-label" style="font-weight: bold">Tanggal Masuk</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" id="tanggalMasuk" th:field="${gaji.tanggalMasuk}" >
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </form>
+</div>
+>>>>>>> 1fb9263c5de5c931f97d4eb044032e35839fa5e7
 </body>
 
 </html>
