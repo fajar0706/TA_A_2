@@ -1,11 +1,13 @@
 package apap.ta.sipayroll.service;
 
+import apap.ta.sipayroll.model.GajiModel;
 import apap.ta.sipayroll.model.LemburModel;
 import apap.ta.sipayroll.repository.LemburDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -38,4 +40,10 @@ public class LemburServiceImpl implements LemburService {
 
         }
     }
+
+    @Override
+    public List<LemburModel> getLemburList() {
+        return lemburDb.findAll();
+    }
+
 }
