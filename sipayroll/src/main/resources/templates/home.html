@@ -1,15 +1,40 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <title> Home </title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
+
 <body>
-<nav th:replace="fragments/fragment :: navbar ('Home')"></nav>
-<div class="container-fluid">
-    <h2 th:text=" 'Hello '+ ${#httpServletRequest.remoteUser} + ' !'">Login as</h2>
-</div>
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+    <div class="container mt-5">
+        <div class="card text-center p-5" style="background-color:#329ec8;border-radius:30px;">
+            <h2 class="fontsipayroll" style="color: white;"> Selamat Datang di SIPAYROLL</h2>
+        </div>
+        <br>
+
+        <div class="container-sm fontsipayroll text-center">
+            <h3 class="fontsipayroll">Daftar Fitur:</h3>
+            <br>
+            <div class="table table-borderless ">
+                <thead class="row ">
+                    <th>
+                        <div class="col-3 "></div>
+                    </th>
+
+                    <th><a class="btn btn-info btn-lg col-2 " th:href="@{/gaji/viewall}">Gaji</a></th>
+                    <th><a class="btn btn-info btn-lg col-2 " th:href="@{/lembur/viewall}">Lembur</a></th>
+                    <th><a class=" btn btn-info btn-lg col-2 " th:href="@{/}">Bonus</a></th>
+                    <th>
+                        <div class="col-3 "></div>
+                    </th>
+                </thead>
+
+            </div>
+        </div>
 </body>
+
 </html>
