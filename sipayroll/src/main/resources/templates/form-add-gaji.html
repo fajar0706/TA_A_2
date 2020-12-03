@@ -9,6 +9,69 @@
 </head>
 
 <body>
+<<<<<<< HEAD
+=======
+
+
+    <!-- <h4 class="text-center" style="font-family: Poppins;font-weight: bold;">Add Gaji</h4>
+        <form class="post-form; text-center" th:action="@{/gaji/add}" th:object="${gaji}" method="POST">
+
+            Gaji Pokok : <br>
+            <input class="form-control" type="text" th:field="*{gajiPokok}" />
+            <br><br> Tanggal Masuk : <br>
+            <input type="date" th:field="*{tanggalMasuk}" class="form-control" />
+            <br><br>
+
+            <button class="btn btn-success" type="submit">Submit</button>
+
+        </form> -->
+    <nav th:replace="fragments/fragment :: navbar"></nav>
+<!--    <br>-->
+<!--    <div class="fontsipayroll">-->
+<!--        <div class="row text-form">-->
+<!--            <div class="col-2"></div>-->
+<!--            <h3 class="col-8 text-center">Form Tambah Gaji</h3>-->
+<!--            <div class="col-2"></div>-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <form th:action="@{/gaji/add}" th:object="${gaji}" method="POST">-->
+<!--            <div class="container-fluid text-form">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-md-4"></div>-->
+<!--                    <label class="col-md-4 col-form-label text-left">Gaji</label>-->
+<!--                    <div class="col-md-4"></div>-->
+<!--                </div>-->
+<!--                <div class="form-group row">-->
+<!--                    <div class="col-md-4"></div>-->
+<!--                    <div class="col-md-4">-->
+<!--                        <input class="form-control" type="text" th:field="*{gajiPokok}">-->
+<!--                    </div>-->
+<!--                    <div class="col-md-4"></div>-->
+<!--                </div>-->
+<!--                <div class="row">-->
+<!--                    <div class="col-md-4"></div>-->
+<!--                    <label class="col-md-4 col-form-label text-left">Tanggal Masuk</label>-->
+<!--                    <div class="col-md-4"></div>-->
+<!--                </div>-->
+<!--                <div class="form-group row">-->
+<!--                    <div class="col-md-4"></div>-->
+<!--                    <div class="col-md-4">-->
+<!--                        <input class="form-control" type="date" th:field="*{tanggalMasuk}">-->
+<!--                    </div>-->
+<!--                    <div class="col-md-4"></div>-->
+<!--                </div>-->
+<!--                <div class="form-group row">-->
+<!--                    <div class="col-md-5"></div>-->
+<!--                    <div class="col-md-4">-->
+<!--                        <a class="btn btn-outline-dark" th:href="@{/}">Batal</a>-->
+<!--                        <button type="submit" value="Submit" class="btn btn-primary" name="simpan">Simpan</button>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-3"></div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
+>>>>>>> staging
 
 <div class="card m-5 p-3">
     <h4 class="text-center" style="font-family: Poppins;font-weight: bold;">Tambah Gaji</h4>
@@ -35,7 +98,6 @@
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Simpan</button>
-        <button type="button" class="btn btn-outline-primary">Batal</button>
     </form>
 </div>
 </body>
