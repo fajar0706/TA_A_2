@@ -17,7 +17,7 @@ public class LemburModel implements Serializable {
 
     @NotNull
     @Column(name = "waktu_mulai", nullable = false)
-    @DateTimeFormat(pattern = "hh:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date waktuMulai;
 
     public Date getWaktuMulai() {
@@ -30,7 +30,7 @@ public class LemburModel implements Serializable {
 
     @NotNull
     @Column(name = "waktu_selesai", nullable = false)
-    @DateTimeFormat(pattern = "hh:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date waktuSelesai;
 
     public Date getWaktuSelesai() {

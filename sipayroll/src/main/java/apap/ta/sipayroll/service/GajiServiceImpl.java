@@ -1,6 +1,7 @@
 package apap.ta.sipayroll.service;
 
 import apap.ta.sipayroll.model.GajiModel;
+import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.repository.GajiDb;
 import apap.ta.sipayroll.repository.LemburDb;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,5 +80,8 @@ public class GajiServiceImpl implements GajiService  {
        return jumlahTotalPendapatan;
    }
 
-
+    @Override
+    public GajiModel getGajiModelByUser(UserModel userModel) {
+        return gajiDb.findGajiModelByUser(userModel);
+    }
 }
