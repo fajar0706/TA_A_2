@@ -12,15 +12,6 @@
 <div class="card m-5 p-3">
     <h4 class="text-center" style="font-family: Poppins;font-weight: bold;">Add Lembur</h4>
     <form class="post-form; text-center" th:action="@{/lembur/add}"th:object="${lembur}" method="POST">
-<<<<<<< HEAD
-        <br>
-        Waktu Mulai: <br>
-        <input type="time" th:field="*{waktuMulai}" class="form-control"/>
-        <br><br>
-
-        Waktu Selesai: <br>
-        <input type="time" th:field="*{waktuSelesai}" class="form-control"/>
-=======
         <div th:if="${notMatch != null}">
             <p th:text="${notMatch}" class="alert alert-info" role="alert"></p>
         </div>
@@ -31,7 +22,6 @@
 
         Waktu Selesai: <br>
         <input type="datetime-local" th:field="*{waktuSelesai}" class="form-control"/>
->>>>>>> staging
         <br><br>
 
         <select hidden class="form-control form-control-lg" th:field="*{statusPersetujuan}">
