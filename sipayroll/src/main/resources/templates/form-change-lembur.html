@@ -21,13 +21,21 @@
           
             <input type="hidden" th:field="*{waktuSelesai}" class="form-control"/>
             <br><br>
-    
-            <select class="form-control form-control-lg" th:field="*{statusPersetujuan}">
-                <option value="0" >Menunggu Status Persetujuan</option>
-                <option value="1" >Ditolak</option>
-                <option value="2" >Disetujui</option>
-            </select>
-
+            <div th:if="${checkDisetujui}">
+                <select class="form-control form-control-lg" th:field="*{statusPersetujuan}" disabled>
+                    <option value="0" >Menunggu Status Persetujuan</option>
+                    <option value="1" >Ditolak</option>
+                    <option value="2" selected >Disetujui</option>
+                </select>
+            </div>
+            <div th:unless="${checkDisetujui}">
+                <select class="form-control form-control-lg" th:field="*{statusPersetujuan}">
+                    <option value="0" >Menunggu Status Persetujuan</option>
+                    <option value="1" >Ditolak</option>
+                    <option value="2" >Disetujui</option>
+                </select>
+            </div>
+            
             <input class="form-control" type="hidden" th:field="*{kompensasiPerJam}" disabled/>
             <br><br>
             <button class="btn btn-success" type="submit">Submit</button>

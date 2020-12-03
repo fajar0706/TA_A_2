@@ -50,6 +50,9 @@ public class GajiModel implements Serializable {
     @JsonIgnore
     private UserModel user;
 
+    @OneToMany(mappedBy="gaji",fetch=FetchType.LAZY,cascade= CascadeType.ALL)
+    private List<LemburModel> listLembur;
+
     @OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="id_lembur",referencedColumnName = "id")
     private LemburModel kompensasi;
@@ -120,5 +123,12 @@ public class GajiModel implements Serializable {
 
     public void setUser(UserModel user) {
         this.user = user;
+    }
+    public List<LemburModel> getListLembur() {
+        return this.listLembur;
+    }
+
+    public void setListLembur(List<LemburModel> listLembur) {
+        this.listLembur = listLembur;
     }
 }

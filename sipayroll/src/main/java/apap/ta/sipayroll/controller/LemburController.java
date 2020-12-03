@@ -68,7 +68,12 @@ public class LemburController {
 
     @GetMapping("/lembur/change/{idLembur}")
     public String changeLemburFormPage(@PathVariable Long idLembur, Model model) {
+        boolean checkDisetujui= false;
         LemburModel lembur = lemburService.getLemburByIdLembur(idLembur);
+        if(lembur.getStatusPersetujuan()==2){
+            checkDisetujui = true;
+        }
+        model.addAttribute("checkDisetujui", checkDisetujui);
         model.addAttribute("lembur", lembur);
         model.addAttribute("role",roleService);
         return "form-change-lembur";
