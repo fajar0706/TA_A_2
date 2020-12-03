@@ -117,18 +117,24 @@ public class GajiController {
 //        model.addAttribute("gaji", newGaji);
 //        return "ubah-data-gaji";
 //    }
-//    @RequestMapping(value = "/gaji/ubah/{id}", method = RequestMethod.POST, params = {"gajiPokok"})
-//    public String ubahKapasitasRuanganSubmit(@PathVariable Integer id, @ModelAttribute GajiModel gaji, Model model, HttpServletRequest request){
-//        Integer gajiPokok =  Integer.valueOf(request.getParameter("gajiPokok"));
-//        model.addAttribute("gajiPokok", gajiPokok);
-//
-//        GajiModel gaji = ruanganService.getRuanganByIdRuangan(id).get();
-//
-//        ruang.setKapasitas(kap);
-//        ruanganService.saveRuangan(ruang);
-//
-//        String message = "Kapasitas ruangan " + ruang.getNama() + " berhasil diubah menjadi " + ruang.getKapasitas() +".";
-//        model.addAttribute("message", message);
-//        return "sukses-tambah-fasilitas";
-//    }
+    @RequestMapping(value = "/gaji/ubah/{id}", method = RequestMethod.POST, params = {"gajiPokok"})
+    public String ubahGajiPokokSubmit(
+            @PathVariable Integer id,
+            @ModelAttribute GajiModel gaji, Model model){
+        GajiModel gajiPok = gajiService.getGajiById(id);
+        UserModel userAktif = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        UserModel userModel = gajiPok.getUser();
+
+        String text = "Anda tidak dapat merubah gaji anda sendiri";
+        if(userAktif == userModel){
+            model.addAttribute("text" ,text);
+            return "ubah-data-gaji";
+        }
+        gaji.setUserPengaju(userAktif);
+        gaji.setUser(userModel);
+        gajiService.changeGaji(gaji);
+        text = "Gaji Pokok " + gajiPok.getUser().getUsername() + " berhasil diubah";
+        model.addAttribute("text", text);
+        return "ubah-data-gaji";
+    }
 }
