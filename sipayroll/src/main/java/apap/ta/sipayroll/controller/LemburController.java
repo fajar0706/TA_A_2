@@ -81,11 +81,25 @@ public class LemburController {
 
     @PostMapping("/lembur/change")
     public String changeLemburSubmit(@ModelAttribute LemburModel lembur, Model model) {
-        LemburModel lemburUpdated = lemburService.updateLembur(lembur);
+        
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String start = dateFormat.format(lembur.getWaktuMulai());
+        String finish = dateFormat.format(lembur.getWaktuSelesai());
+        String notMatch;
+        if (!start.equals(finish)){
+            notMatch = "Waktu lembur harus dalam tanggal yang sama!";
+            model.addAttribute("notMatch", notMatch);
+            model.addAttribute("lembur", new LemburModel());
+            model.addAttribute("role",roleService);
+            return "form-change-lembur";
+        }else{
+            LemburModel lemburUpdated = lemburService.updateLembur(lembur);
         GajiModel gaji = lemburUpdated.getGaji();
-        model.addAttribute("lemburUpdated",lemburUpdated);
-        model.addAttribute("gaji", gaji);
+            model.addAttribute("lemburUpdated",lemburUpdated);
+            model.addAttribute("gaji", gaji);
         return "change-lembur";
+        }
+        
     }
 
     @RequestMapping("/lembur/viewall")
