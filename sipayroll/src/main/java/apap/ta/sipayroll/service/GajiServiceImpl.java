@@ -51,7 +51,7 @@ public class GajiServiceImpl implements GajiService  {
     public GajiModel changeGaji(GajiModel gaji) {
         GajiModel targetGaji = gajiDb.findById(gaji.getId()).get();
         try {
-            targetGaji.setStatusPersetujuan(gaji.getGajiPokok());
+            targetGaji.setStatusPersetujuan(0);
             targetGaji.setGajiPokok(gaji.getGajiPokok());
             gajiDb.save(targetGaji);
             return targetGaji;
@@ -84,4 +84,21 @@ public class GajiServiceImpl implements GajiService  {
     public GajiModel getGajiModelByUser(UserModel userModel) {
         return gajiDb.findGajiModelByUser(userModel);
     }
+
+    @Override
+    public GajiModel changeStatus(GajiModel gaji) {
+        GajiModel targetGaji = gajiDb.findById(gaji.getId()).get();
+        try {
+            targetGaji.setStatusPersetujuan(gaji.getStatusPersetujuan());
+            gajiDb.save(targetGaji);
+            return targetGaji;
+        } catch (NullPointerException nullException) {
+            return null;
+        }
+    }
+
+//    @Override
+//    public GajiModel changeStatus(GajiModel gaji) {
+//        return null;
+//    }
 }

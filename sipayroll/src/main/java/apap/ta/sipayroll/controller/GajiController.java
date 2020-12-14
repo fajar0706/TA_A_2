@@ -143,7 +143,7 @@ public class GajiController {
         return "ubah-data-gaji";
     }
     @GetMapping("/gaji/change/status/{idGaji}")
-    public String changeStatuFormPage(@PathVariable Integer idGaji, Model model) {
+    public String changeStatusFormPage(@PathVariable Integer idGaji, Model model) {
         GajiModel gaji = gajiService.getGajiById(idGaji);
         model.addAttribute("gaji", gaji);
         return "form-change-status-gaji";
@@ -155,7 +155,7 @@ public class GajiController {
         
         UserModel userAktif = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         gaji.setUserPenyetuju(userAktif);
-        gajiService.changeGaji(gaji);
+        gajiService.changeStatus(gaji);
         model.addAttribute("gaji", gaji);
         String alert = "Status Gaji Pokok " + gaji.getUser().getUsername() + " berhasil diubah";
         model.addAttribute("alert", alert);
