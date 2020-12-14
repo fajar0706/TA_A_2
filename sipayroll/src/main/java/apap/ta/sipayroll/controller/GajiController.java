@@ -157,8 +157,8 @@ public class GajiController {
         gaji.setUserPenyetuju(userAktif);
         gajiService.changeGaji(gaji);
         model.addAttribute("gaji", gaji);
-        String text = "Status Gaji Pokok " + gaji.getUser().getUsername() + " berhasil diubah";
-        model.addAttribute("text", text);
+        String alert = "Status Gaji Pokok " + gaji.getUser().getUsername() + " berhasil diubah";
+        model.addAttribute("alert", alert);
         return "change-status-gaji";
 
     }
