@@ -5,6 +5,7 @@ import apap.ta.sipayroll.model.GajiModel;
 import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.service.GajiService;
 import apap.ta.sipayroll.service.UserService;
+import apap.ta.sipayroll.service.RoleService;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +27,9 @@ public class GajiController {
     @Qualifier("userServiceImpl")
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @GetMapping("/gaji/add")
     public String addGajiFormPage(Model model){
@@ -65,6 +69,7 @@ public class GajiController {
     public String listGaji(Model model){
         List<GajiModel> listGaji = gajiService.getGajiList();
         model.addAttribute( "listGaji",listGaji);
+		model.addAttribute("role",roleService);
         return "viewall-gaji";
     }
 
@@ -136,5 +141,25 @@ public class GajiController {
         text = "Gaji Pokok " + gajiPok.getUser().getUsername() + " berhasil diubah";
         model.addAttribute("text", text);
         return "ubah-data-gaji";
+    }
+    @GetMapping("/gaji/change/status/{idGaji}")
+    public String changeStatuFormPage(@PathVariable Integer idGaji, Model model) {
+        GajiModel gaji = gajiService.getGajiById(idGaji);
+        model.addAttribute("gaji", gaji);
+        return "form-change-status-gaji";
+        
+    }
+
+    @PostMapping("/gaji/change/status")
+    public String changeStatusGajiSubmit(@ModelAttribute GajiModel gaji, Model model) {
+        
+        UserModel userAktif = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        gaji.setUserPenyetuju(userAktif);
+        gajiService.changeGaji(gaji);
+        model.addAttribute("gaji", gaji);
+        String text = "Status Gaji Pokok " + gaji.getUser().getUsername() + " berhasil diubah";
+        model.addAttribute("text", text);
+        return "change-status-gaji";
+
     }
 }

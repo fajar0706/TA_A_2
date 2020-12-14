@@ -68,37 +68,50 @@ public class LemburController {
 
     @GetMapping("/lembur/change/{idLembur}")
     public String changeLemburFormPage(@PathVariable Long idLembur, Model model) {
-        boolean checkDisetujui= false;
         LemburModel lembur = lemburService.getLemburByIdLembur(idLembur);
+        boolean checkDisetujui;
+        String notChange;
         if(lembur.getStatusPersetujuan()==2){
             checkDisetujui = true;
+            notChange = "Status Persetujuan Sudah Disetujui Tidak Dapat Diubah";
+            model.addAttribute("notChange",notChange);
+            model.addAttribute("checkDisetujui", checkDisetujui);
+            model.addAttribute("lembur", lembur);
+            model.addAttribute("role",roleService);
+            return "form-change-lembur";
         }
-        model.addAttribute("checkDisetujui", checkDisetujui);
-        model.addAttribute("lembur", lembur);
-        model.addAttribute("role",roleService);
-        return "form-change-lembur";
+        else{
+            model.addAttribute("lembur", lembur);
+            model.addAttribute("role",roleService);
+            return "form-change-lembur";
+        }
+        
     }
 
     @PostMapping("/lembur/change")
     public String changeLemburSubmit(@ModelAttribute LemburModel lembur, Model model) {
         
+        boolean checkDisetujui;
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String start = dateFormat.format(lembur.getWaktuMulai());
         String finish = dateFormat.format(lembur.getWaktuSelesai());
         String notMatch;
-        if (!start.equals(finish)){
-            notMatch = "Waktu lembur harus dalam tanggal yang sama!";
-            model.addAttribute("notMatch", notMatch);
-            model.addAttribute("lembur", new LemburModel());
-            model.addAttribute("role",roleService);
-            return "form-change-lembur";
-        }else{
-            LemburModel lemburUpdated = lemburService.updateLembur(lembur);
-        GajiModel gaji = lemburUpdated.getGaji();
-            model.addAttribute("lemburUpdated",lemburUpdated);
-            model.addAttribute("gaji", gaji);
-        return "change-lembur";
-        }
+        String notChange;
+            if (!start.equals(finish)){
+                notMatch = "Waktu lembur harus dalam tanggal yang sama!";
+                model.addAttribute("notMatch", notMatch);
+                model.addAttribute("lembur", new LemburModel());
+                model.addAttribute("role",roleService);
+                return "form-change-lembur";
+            }else{
+                LemburModel lemburUpdated = lemburService.updateLembur(lembur);
+                GajiModel gaji = lemburUpdated.getGaji();
+                model.addAttribute("lemburUpdated",lemburUpdated);
+                model.addAttribute("gaji", gaji);
+            return "change-lembur";
+            }
+    
+        
         
     }
 
