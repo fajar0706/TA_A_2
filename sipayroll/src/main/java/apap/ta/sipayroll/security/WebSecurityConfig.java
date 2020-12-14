@@ -27,6 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/gaji/viewall").hasAnyAuthority("Kepala Departemen HR", "Staff Payroll", "Karyawan")
                 .antMatchers("/gaji/ubah/**").hasAnyAuthority("Kepala Departemen HR", "Staff Payroll")
                 .antMatchers("/gaji/delete/**").hasAnyAuthority("Kepala Departemen HR", "Staff Payroll")
+                .antMatchers("/gaji/change/status/**").hasAnyAuthority("Kepala Departemen HR")
                 .antMatchers("/lembur/add").hasAnyAuthority("Karyawan")
                 .antMatchers("/lembur/change/**").hasAnyAuthority("Kepala Departemen HR", "Staff Payroll", "Karyawan")
                 .antMatchers("/lembur/change").hasAnyAuthority("Kepala Departemen HR", "Staff Payroll", "Karyawan")
@@ -39,7 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").permitAll();
 
     }
-    
     @Bean
     public BCryptPasswordEncoder encoder() { return new BCryptPasswordEncoder(); }
 

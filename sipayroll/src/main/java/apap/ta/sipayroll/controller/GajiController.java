@@ -13,9 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import apap.ta.sipayroll.service.GajiRestService;
+import apap.ta.sipayroll.rest.BaseResponse;
+import reactor.core.publisher.Mono;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import apap.ta.sipayroll.rest.PesertaDetail;
 
 @Controller
 public class GajiController {
@@ -30,6 +33,9 @@ public class GajiController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private GajiRestService gajiRestService;
 
     @GetMapping("/gaji/add")
     public String addGajiFormPage(Model model){
@@ -75,8 +81,16 @@ public class GajiController {
 
     @GetMapping("/gaji/{id}")
     public String viewGaji(
-            @PathVariable(value = "id") Integer id, Model model){
+        @PathVariable(value = "id") Integer id, Model model){
         GajiModel gaji = gajiService.getGajiById(id);
+        Mono<BaseResponse> response= gajiRestService.getListPesertaPelatihan();
+        BaseResponse fix = response.block();
+        List<PesertaDetail> listPeserta = (List<PesertaDetail>) fix.getResult();
+        System.out.println(listPeserta);
+        
+        
+        
+
 //        List<Integer> listTotalPendapatan = gajiService.totalPendapatan();
 //        model.addAttribute("listTotalPendapatan", listTotalPendapatan);
         model.addAttribute("gaji", gaji);
@@ -162,4 +176,5 @@ public class GajiController {
         return "change-status-gaji";
 
     }
+
 }
