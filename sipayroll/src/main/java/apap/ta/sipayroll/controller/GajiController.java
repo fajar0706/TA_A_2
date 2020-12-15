@@ -5,6 +5,7 @@ import apap.ta.sipayroll.model.GajiModel;
 import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.service.GajiService;
 import apap.ta.sipayroll.service.UserService;
+import apap.ta.sipayroll.service.RoleService;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,6 +27,9 @@ public class GajiController {
     @Qualifier("userServiceImpl")
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @GetMapping("/gaji/add")
     public String addGajiFormPage(Model model){
@@ -64,6 +68,7 @@ public class GajiController {
     public String listGaji(Model model){
         List<GajiModel> listGaji = gajiService.getGajiList();
         model.addAttribute( "listGaji",listGaji);
+		model.addAttribute("role",roleService);
         return "viewall-gaji";
     }
 
@@ -86,7 +91,6 @@ public class GajiController {
         model.addAttribute("user", user);
         return "delete-gaji";
     }
-
     @GetMapping("/gaji/ubah/{id}")
     public String changeGajiFormPage(
             @PathVariable Integer id,
@@ -95,6 +99,7 @@ public class GajiController {
         model.addAttribute("gaji",gaji);
         return "form-update-gaji";
     }
+
 
 //    @PostMapping("/gaji/ubah/{id}")
 //    public String changeGajiFormSubmit(
@@ -116,18 +121,44 @@ public class GajiController {
 //        model.addAttribute("gaji", newGaji);
 //        return "ubah-data-gaji";
 //    }
-//    @RequestMapping(value = "/gaji/ubah/{id}", method = RequestMethod.POST, params = {"gajiPokok"})
-//    public String ubahKapasitasRuanganSubmit(@PathVariable Integer id, @ModelAttribute GajiModel gaji, Model model, HttpServletRequest request){
-//        Integer gajiPokok =  Integer.valueOf(request.getParameter("gajiPokok"));
-//        model.addAttribute("gajiPokok", gajiPokok);
-//
-//        GajiModel gaji = ruanganService.getRuanganByIdRuangan(id).get();
-//
-//        ruang.setKapasitas(kap);
-//        ruanganService.saveRuangan(ruang);
-//
-//        String message = "Kapasitas ruangan " + ruang.getNama() + " berhasil diubah menjadi " + ruang.getKapasitas() +".";
-//        model.addAttribute("message", message);
-//        return "sukses-tambah-fasilitas";
-//    }
+    @RequestMapping(value = "/gaji/ubah/{id}", method = RequestMethod.POST, params = {"gajiPokok"})
+    public String ubahGajiPokokSubmit(
+            @PathVariable Integer id,
+            @ModelAttribute GajiModel gaji, Model model){
+        GajiModel gajiPok = gajiService.getGajiById(id);
+        UserModel userAktif = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        UserModel userModel = gajiPok.getUser();
+
+        String text = "Anda tidak dapat merubah gaji anda sendiri";
+        if(userAktif == userModel){
+            model.addAttribute("text" ,text);
+            return "ubah-data-gaji";
+        }
+        gaji.setUserPengaju(userAktif);
+        gaji.setUser(userModel);
+        gajiService.changeGaji(gaji);
+        text = "Gaji Pokok " + gajiPok.getUser().getUsername() + " berhasil diubah";
+        model.addAttribute("text", text);
+        return "ubah-data-gaji";
+    }
+    @GetMapping("/gaji/change/status/{idGaji}")
+    public String changeStatusFormPage(@PathVariable Integer idGaji, Model model) {
+        GajiModel gaji = gajiService.getGajiById(idGaji);
+        model.addAttribute("gaji", gaji);
+        return "form-change-status-gaji";
+        
+    }
+
+    @PostMapping("/gaji/change/status")
+    public String changeStatusGajiSubmit(@ModelAttribute GajiModel gaji, Model model) {
+        
+        UserModel userAktif = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        gaji.setUserPenyetuju(userAktif);
+        gajiService.changeStatus(gaji);
+        model.addAttribute("gaji", gaji);
+        String alert = "Status Gaji Pokok " + gaji.getUser().getUsername() + " berhasil diubah";
+        model.addAttribute("alert", alert);
+        return "change-status-gaji";
+
+    }
 }

@@ -1,6 +1,7 @@
 package apap.ta.sipayroll.service;
 
 import apap.ta.sipayroll.model.GajiModel;
+import apap.ta.sipayroll.model.UserModel;
 
 import java.util.List;
 
@@ -17,5 +18,9 @@ public interface GajiService {
 
     GajiModel changeGaji(GajiModel gaji);
 
-//    List<Integer> totalPendapatan();
+    List<Integer> totalPendapatan();
+
+    GajiModel getGajiModelByUser(UserModel userModel);
+
+    GajiModel changeStatus(GajiModel gaji);
 }

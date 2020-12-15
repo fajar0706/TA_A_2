@@ -2,16 +2,21 @@ package apap.ta.sipayroll.controller;
 
 import apap.ta.sipayroll.model.LemburModel;
 import apap.ta.sipayroll.model.GajiModel;
+import apap.ta.sipayroll.model.UserModel;
+import apap.ta.sipayroll.service.GajiService;
 import apap.ta.sipayroll.service.LemburService;
 import apap.ta.sipayroll.service.RoleService;
+import apap.ta.sipayroll.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 @Controller
 public class LemburController {
@@ -22,6 +27,12 @@ public class LemburController {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private GajiService gajiService;
+
     @GetMapping("/lembur/add")
     public String addLemburFormPage(Model model) {
         model.addAttribute("lembur", new LemburModel());
@@ -30,25 +41,92 @@ public class LemburController {
 
     @PostMapping("/lembur/add")
     public String addLemburSubmit(@ModelAttribute LemburModel lembur, Model model) {
-        lemburService.addLembur(lembur);
-        model.addAttribute("id", lembur.getId());
-        return "add-lembur";
+        UserModel user = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        GajiModel gaji = gajiService.getGajiModelByUser(user);
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String start = dateFormat.format(lembur.getWaktuMulai());
+        String finish = dateFormat.format(lembur.getWaktuSelesai());
+        String notMatch;
+        if (!start.equals(finish)){
+            notMatch = "Waktu lembur harus dalam tanggal yang sama!";
+            model.addAttribute("notMatch", notMatch);
+            model.addAttribute("lembur", new LemburModel());
+            return "form-add-lembur";
+        }else {
+            if (gaji!=null){
+                lembur.setGaji(gaji);
+                lemburService.addLembur(lembur);
+                model.addAttribute("id", lembur.getId());
+                return "add-lembur";}
+            else{
+                notMatch = "Belum ada gaji!";
+                model.addAttribute("notMatch", notMatch);
+                model.addAttribute("lembur", new LemburModel());
+                return "form-add-lembur";
+            }}
     }
 
     @GetMapping("/lembur/change/{idLembur}")
     public String changeLemburFormPage(@PathVariable Long idLembur, Model model) {
         LemburModel lembur = lemburService.getLemburByIdLembur(idLembur);
-        model.addAttribute("lembur", lembur);
-        model.addAttribute("role",roleService);
-        return "form-change-lembur";
+        boolean checkDisetujui;
+        String notChange;
+        if(lembur.getStatusPersetujuan()==2){
+            checkDisetujui = true;
+            notChange = "Status Persetujuan Sudah Disetujui Tidak Dapat Diubah";
+            model.addAttribute("notChange",notChange);
+            model.addAttribute("checkDisetujui", checkDisetujui);
+            model.addAttribute("lembur", lembur);
+            model.addAttribute("role",roleService);
+            return "form-change-lembur";
+        }
+        else{
+            model.addAttribute("lembur", lembur);
+            model.addAttribute("role",roleService);
+            return "form-change-lembur";
+        }
+        
     }
 
     @PostMapping("/lembur/change")
     public String changeLemburSubmit(@ModelAttribute LemburModel lembur, Model model) {
-        LemburModel lemburUpdated = lemburService.updateLembur(lembur);
-        GajiModel gaji = lemburUpdated.getGaji();
-        model.addAttribute("lemburUpdated",lemburUpdated);
-        model.addAttribute("gaji", gaji);
-        return "change-lembur";
+        
+        boolean checkDisetujui;
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String start = dateFormat.format(lembur.getWaktuMulai());
+        String finish = dateFormat.format(lembur.getWaktuSelesai());
+        String notMatch;
+        String notChange;
+            if (!start.equals(finish)){
+                notMatch = "Waktu lembur harus dalam tanggal yang sama!";
+                model.addAttribute("notMatch", notMatch);
+                model.addAttribute("lembur", new LemburModel());
+                model.addAttribute("role",roleService);
+                return "form-change-lembur";
+            }else{
+                LemburModel lemburUpdated = lemburService.updateLembur(lembur);
+                GajiModel gaji = lemburUpdated.getGaji();
+                model.addAttribute("lemburUpdated",lemburUpdated);
+                model.addAttribute("gaji", gaji);
+            return "change-lembur";
+            }
+        
+    }
+
+    @RequestMapping("/lembur/viewall")
+    public String listLembur(Model model) {
+        List<LemburModel> listLembur = lemburService.getLemburList();
+        model.addAttribute("listLembur", listLembur);
+        return "viewall-lembur";
+    }
+
+    @RequestMapping(value={"/lembur/delete/", "/lembur/delete/id/{idLembur}"})
+    public String delete(
+            @PathVariable(value="idLembur", required = false) Long idLembur, Model model) {
+        LemburModel lembur = lemburService.getLemburByIdLembur(idLembur);
+        lemburService.deleteLembur(lembur);
+        // UserModel user = userService.getUserModelByUsername(lembur.getUser().getUsername());
+        // model.addAttribute("user", user);
+        return "delete-lembur";
     }
 }

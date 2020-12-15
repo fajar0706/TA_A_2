@@ -10,8 +10,8 @@
 <body>
     <nav th:replace="fragments/fragment :: navbar"></nav>
     <div class="container-fluid">
-        <h4 class="text-center" style="font-family: Poppins;font-weight: bold;" th:text="'Lembur dengan ID ' + ${lemburUpdated.id} + ' Berhasil Diubah.'"></h4>
-        <a class="btn btn-primary" th:href ="@{/lembur/viewall}">Kembali</a>
+        <h4 class="text-center" style="font-family: Poppins;font-weight: bold;" th:text="${alert}"></h4>
+        <a class="btn btn-primary" th:href ="@{/gaji/viewall}">Kembali</a>
     </div>
 </body>
 </html>

@@ -24,6 +24,9 @@
                 <th> Total Pendapatan </th>
                 <th> Lihat </th>
                 <th> Ubah Data </th>
+                <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Kepala Departemen HR')}">
+                    <th>Ubah Status Persetujuan</th>
+                </div>
                 <th> Hapus </th>
                 <th></th>
             </tr>
@@ -36,6 +39,12 @@
                 <!--                <td th:text="*{listTotalPendapatan[__${iterationStatus.index}__]}"></td>-->
                 <td><a class="btn btn-info" th:href="@{/gaji/}+${gaji.id}" >Lihat</a></td>
                 <td><a class="btn btn-warning" th:href="@{/gaji/ubah/}+${gaji.id}">Ubah</a></td>
+<<<<<<< HEAD
+=======
+                <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Kepala Departemen HR')}">
+                    <td><a class="btn btn-warning" th:href="@{/gaji/change/status/}+${gaji.id}">Ubah Status</a></td>
+                </div>
+>>>>>>> ddbd2bf2ab86c7cd1158a33eb14e9633f274c024
                 <td><a class="btn btn-danger" th:href="@{/gaji/delete/id/}+${gaji.id}">Hapus </a></td>
 
 

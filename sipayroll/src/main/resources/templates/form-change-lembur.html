@@ -14,6 +14,10 @@
     <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Kepala Departemen HR') OR #strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Staff Payroll')}">
         <form class="post-form; text-center" th:action="@{/lembur/change}"th:object="${lembur}" method="POST">
             <br>
+            <div th:if="${notMatch != null}">
+                <p th:text="${notMatch}" class="alert alert-info" role="alert"></p>
+            </div>
+            
             <input type="hidden" th:field="*{id}" class="form-control"/>
             <input type="hidden" th:field="*{waktuMulai}" class="form-control"/>
             <br><br>
@@ -21,28 +25,78 @@
           
             <input type="hidden" th:field="*{waktuSelesai}" class="form-control"/>
             <br><br>
-    
-            <select class="form-control form-control-lg" th:field="*{statusPersetujuan}">
-                <option value="0" >Menunggu Status Persetujuan</option>
-                <option value="1" >Ditolak</option>
-                <option value="2" >Disetujui</option>
-            </select>
-
+            <div th:if="${checkDisetujui}">
+                <p th:text="${notChange}" class="alert alert-info" role="alert"></p>
+                <select class="form-control form-control-lg" th:field="*{statusPersetujuan}" disabled>
+                    <option value="0" >Menunggu Status Persetujuan</option>
+                    <option value="1" >Ditolak</option>
+                    <option value="2" selected >Disetujui</option>
+                </select>
+               
+            </div>
+            <div th:unless="${checkDisetujui}">
+                <select class="form-control form-control-lg" th:field="*{statusPersetujuan}">
+                    <option value="0" >Menunggu Status Persetujuan</option>
+                    <option value="1" >Ditolak</option>
+                    <option value="2" >Disetujui</option>
+                </select>
+            </div>
+            
             <input class="form-control" type="hidden" th:field="*{kompensasiPerJam}" disabled/>
             <br><br>
             <button class="btn btn-success" type="submit">Submit</button>
         </form>
     </div>
+    <!-- <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Staff Payroll')}">
+        <form class="post-form; text-center" th:action="@{/lembur/change}"th:object="${lembur}" method="POST">
+            <div th:if="${notMatch != null}">
+                <p th:text="${notMatch}" class="alert alert-info" role="alert"></p>
+            </div>
+            <div th:if="${notMatch != null}">
+                <p th:text="${notMatch}" class="alert alert-info" role="alert"></p>
+            </div>
+            <br>
+            <input type="hidden" th:field="*{id}" class="form-control"/>
+            <input type="hidden" th:field="*{waktuMulai}" class="form-control"/>
+            <br><br>
+            
+          
+            <input type="hidden" th:field="*{waktuSelesai}" class="form-control"/>
+            <br><br>
+            <div th:if="${checkDisetujui}">
+                <select class="form-control form-control-lg" th:field="*{statusPersetujuan}" disabled>
+                    <option value="0" >Menunggu Status Persetujuan</option>
+                    <option value="1" >Ditolak</option>
+                    <option value="2" selected >Disetujui</option>
+                </select>
+            </div>
+            <div th:unless="${checkDisetujui}">
+                <select class="form-control form-control-lg" th:field="*{statusPersetujuan}">
+                    <option value="0" >Menunggu Status Persetujuan</option>
+                    <option value="1" >Ditolak</option>
+                    <option value="2" >Disetujui</option>
+                </select>
+            </div>
+            
+            <input class="form-control" type="hidden" th:field="*{kompensasiPerJam}" disabled/>
+            <br><br>
+            <button class="btn btn-success" type="submit">Submit</button>
+        </form>
+    </div> -->
     <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Karyawan')}">
         <form class="post-form; text-center" th:action="@{/lembur/change}"th:object="${lembur}" method="POST">
             <br>
+            <div th:if="${notMatch != null}">
+                <p th:text="${notMatch}" class="alert alert-info" role="alert"></p>
+            </div>
+            
             Waktu Mulai: <br>
             <input type="hidden" th:field="*{id}" class="form-control"/>
-            <input type="time" th:field="*{waktuMulai}" class="form-control"/>
+            <input type="datetime-local" th:field="*{waktuMulai}" class="form-control"/>
             <br><br>
     
             Waktu Selesai: <br>
-            <input type="time" th:field="*{waktuSelesai}" class="form-control"/>
+            <input type="datetime-local" th:field="*{waktuSelesai}" class="form-control"/>
             <br><br>
     
             <select hidden class="form-control form-control-lg" th:field="*{statusPersetujuan}">

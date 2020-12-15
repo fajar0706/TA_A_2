@@ -59,12 +59,12 @@
             </ul>
             <ul class="navbar-nav fontsipayroll">
                 <li class="nav-item">
-                    <a class="nav-link" th:classappend="${#request.requestURI == '/gaji' ? 'text-white':''}" th:href="@{/}">Gaji</a>
+                    <a class="nav-link" th:classappend="${#request.requestURI == '/gaji' ? 'text-white':''}" th:href="@{/gaji/viewall}">Gaji</a>
                 </li>
             </ul>
             <ul class="navbar-nav  fontsipayroll">
                 <li class="nav-item">
-                    <a class="nav-link" th:classappend="${#request.requestURI == '/lembur' ? 'text-white':''}" th:href="@{/}">Lembur</a>
+                    <a class="nav-link" th:classappend="${#request.requestURI == '/lembur' ? 'text-white':''}" th:href="@{/lembur/viewall}">Lembur</a>
                 </li>
             </ul>
             <ul class="navbar-nav fontsipayroll">
@@ -79,7 +79,8 @@
                 <li class="nav-item dropdown fontsipayroll">
                     <a class="nav-link dropdown-toggle fontsipayroll" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <!-- <h2 class="fontsipayroll fas fa-user" th:classappend="${#request.requestURI == '/' ? 'text-white':''}" th:text=" 'Hello '+ ${#httpServletRequest.remoteUser} + ' !'">Login as</h2> -->
-                        <i style="font: 'Poppins';" class="fas fa-user-alt text-white" th:text=" ' Hello, '+ ${#httpServletRequest.remoteUser} + ' !' "></i></a>
+                        <i class="fas fa-user-alt text-white" style="display: inline;"></i>
+                        <p class="text-white" style="display:inline; font-family: 'Poppins';" th:text=" ' Hello, '+ ${#httpServletRequest.remoteUser} + ' !' "></p></a>
                     <div class="dropdown-menu dropdown-menu-right dropdown-info " aria-labelledby="navbarDropdownMenuLink-4 ">
                         <!-- <a class="dropdown-item " href="# ">My account</a> -->
                         <a class="dropdown-item " th:href="@{/logout} ">Logout</a>

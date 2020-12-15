@@ -1,6 +1,7 @@
 package apap.ta.sipayroll.service;
 
 import apap.ta.sipayroll.model.GajiModel;
+import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.repository.GajiDb;
 import apap.ta.sipayroll.repository.LemburDb;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,9 +52,44 @@ public class GajiServiceImpl implements GajiService  {
         GajiModel targetGaji = gajiDb.findById(gaji.getId()).get();
         try {
             targetGaji.setStatusPersetujuan(0);
-//            targetGaji.setTanggalMasuk(gaji.getTanggalMasuk());
             targetGaji.setGajiPokok(gaji.getGajiPokok());
-//            targetGaji.setUserPenyetuju(gaji.getUserPenyetuju());
+            gajiDb.save(targetGaji);
+            return targetGaji;
+        } catch (NullPointerException nullException) {
+            return null;
+        }
+    }
+
+   @Override
+   public List<Integer> totalPendapatan(){
+       List<GajiModel> listgaji = gajiDb.findAll();
+       List<Integer> jumlahTotalPendapatan = new ArrayList<Integer>();
+
+       for(GajiModel x: listgaji){
+           Integer tempGaji = x.getGajiPokok();
+           Integer tempKompensasi = x.getKompensasi().getKompensasiPerJam();
+
+           Integer jamMulai = x.getKompensasi().getWaktuMulai().getHours();
+           Integer jamAkhir = x.getKompensasi().getWaktuSelesai().getHours();
+           Integer tempJam = jamAkhir-jamMulai;
+
+           Integer kompensasi = tempKompensasi*tempJam;
+           Integer total = tempGaji + kompensasi;
+           jumlahTotalPendapatan.add(total);
+       }
+       return jumlahTotalPendapatan;
+   }
+
+    @Override
+    public GajiModel getGajiModelByUser(UserModel userModel) {
+        return gajiDb.findGajiModelByUser(userModel);
+    }
+
+    @Override
+    public GajiModel changeStatus(GajiModel gaji) {
+        GajiModel targetGaji = gajiDb.findById(gaji.getId()).get();
+        try {
+            targetGaji.setStatusPersetujuan(gaji.getStatusPersetujuan());
             gajiDb.save(targetGaji);
             return targetGaji;
         } catch (NullPointerException nullException) {
@@ -62,23 +98,7 @@ public class GajiServiceImpl implements GajiService  {
     }
 
 //    @Override
-//    public List<Integer> totalPendapatan(){
-//        List<GajiModel> listgaji = gajiDb.findAll();
-//        List<Integer> jumlahTotalPendapatan = new ArrayList<Integer>();
-//
-//        for(GajiModel x: listgaji){
-//            Integer tempGaji = x.getGajiPokok();
-//            Integer tempKompensasi = x.getKompensasi().getKompensasiPerJam();
-//
-//            Integer jamMulai = x.getKompensasi().getWaktuMulai().getHours();
-//            Integer jamAkhir = x.getKompensasi().getWaktuSelesai().getHours();
-//            Integer tempJam = jamAkhir-jamMulai;
-//
-//            Integer kompensasi = tempKompensasi*tempJam;
-//            Integer total = tempGaji + kompensasi;
-//            jumlahTotalPendapatan.add(total);
-//        }
-//        return jumlahTotalPendapatan;
+//    public GajiModel changeStatus(GajiModel gaji) {
+//        return null;
 //    }
-
 }
