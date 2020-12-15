@@ -110,8 +110,6 @@ public class LemburController {
                 model.addAttribute("gaji", gaji);
             return "change-lembur";
             }
-    
-        
         
     }
 
@@ -120,5 +118,15 @@ public class LemburController {
         List<LemburModel> listLembur = lemburService.getLemburList();
         model.addAttribute("listLembur", listLembur);
         return "viewall-lembur";
+    }
+
+    @RequestMapping(value={"/lembur/delete/", "/lembur/delete/id/{idLembur}"})
+    public String delete(
+            @PathVariable(value="idLembur", required = false) Long idLembur, Model model) {
+        LemburModel lembur = lemburService.getLemburByIdLembur(idLembur);
+        lemburService.deleteLembur(lembur);
+        // UserModel user = userService.getUserModelByUsername(lembur.getUser().getUsername());
+        // model.addAttribute("user", user);
+        return "delete-lembur";
     }
 }
