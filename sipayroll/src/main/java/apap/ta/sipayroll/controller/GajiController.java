@@ -135,6 +135,7 @@ public class GajiController {
             return "ubah-data-gaji";
         }
         gaji.setUserPengaju(userAktif);
+        gajiPok.setUserPenyetuju(null);
         gaji.setUser(userModel);
         gajiService.changeGaji(gaji);
         text = "Gaji Pokok " + gajiPok.getUser().getUsername() + " berhasil diubah";
@@ -149,11 +150,13 @@ public class GajiController {
         
     }
 
-    @PostMapping("/gaji/change/status")
-    public String changeStatusGajiSubmit(@ModelAttribute GajiModel gaji, Model model) {
-        
+    @PostMapping("/gaji/change/status/{id}")
+    public String changeStatusGajiSubmit(
+            @PathVariable Integer id,
+            @ModelAttribute GajiModel gaji, Model model) {
+        GajiModel gajiPok = gajiService.getGajiById(id);
         UserModel userAktif = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        gaji.setUserPenyetuju(userAktif);
+        gajiPok.setUserPenyetuju(userAktif);
         gajiService.changeStatus(gaji);
         model.addAttribute("gaji", gaji);
         String alert = "Status Gaji Pokok " + gaji.getUser().getUsername() + " berhasil diubah";
