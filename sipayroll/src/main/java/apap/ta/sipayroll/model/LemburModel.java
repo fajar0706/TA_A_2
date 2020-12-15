@@ -52,7 +52,7 @@ public class LemburModel implements Serializable {
     // @Id
     // @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @ManyToOne(fetch=FetchType.EAGER)
+    @OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="id_gaji",referencedColumnName = "id")
     private GajiModel gaji;
 
