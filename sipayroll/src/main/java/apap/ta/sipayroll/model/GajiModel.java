@@ -38,7 +38,7 @@ public class GajiModel implements Serializable {
     @JsonIgnore
     private UserModel userPengaju;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "uuid_penyetuju",referencedColumnName = "id",nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
