@@ -90,10 +90,25 @@ public class GajiController {
         GajiModel gaji = gajiService.getGajiById(id);
         Mono<BaseResponse> response= gajiRestService.getListPesertaPelatihan();
         BaseResponse fix = response.block();
-        System.out.println(fix.getResult());
-       
 
-       
+        List<LinkedHashMap<String,String>> pesserta = (List<LinkedHashMap<String,String>>) fix.getResult();
+        System.out.println(pesserta);
+        // System.out.println(fix.getResult());
+        // List<LinkedHashMap<String,String>> tempPeserta= (List<LinkedHashMap<String,String>>)fix.getResult();
+        // List<PesertaDetail> listPeserta = new ArrayList<>();
+
+        // for (LinkedHashMap<String,String> x : tempPeserta){
+        //     Set<String> keys = x.keySet();
+        //     PesertaDetail pesertaTemp = new PesertaDetail();
+        //     for (String y : keys){
+        //         if(k.equals("nama")){
+        //             pesertaTemp.setNama();
+        //         }
+        //         if(k.equals("id")){
+        //             pesertaTemp.setId();
+        //         }
+        //     }
+        
         // List<PesertaDetail> listPeserta = (List<PesertaDetail>) fix.getResult();
         // PesertaDetail pesertadetail = ObjectMapper.convertValue(singleObject, PesertaDetail.class);
         // List<PesertaDetail> listPeserta = mappper.convertValue(fix.getResult(), new TypeReference<List<PesertDetail>>(){});
@@ -189,15 +204,14 @@ public class GajiController {
         
     }
 
-    @PostMapping("/gaji/change/status")
-    public String changeStatusGajiSubmit(@ModelAttribute GajiModel gaji, Model model, @CurrentSecurityContext(expression = "authentication.name") String username){
-        
-        UserModel userAktif = userService.getUserModelByUsername(username);
-        GajiModel gajiUpdated = gajiService.changeStatus(gaji,userAktif);
-        System.out.println(userAktif.getUsername());
-
-        model.addAttribute("gajiUpdated", gajiUpdated);
-        String alert = "Status Gaji Pokok " + gajiUpdated.getUser().getUsername() + " berhasil diubah";
+    @PostMapping("/gaji/change/status{id}")
+    public String changeStatusGajiSubmit(@PathVariable Integer id, @ModelAttribute GajiModel gaji, Model model){
+        GajiModel  gajiPok = gajiService.getGajiById(id);
+        UserModel userAktif = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        gajiPok.setUserPenyetuju(userAktif);
+        gajiService.changeStatus(gaji);
+        model.addAttribute("gaji", gaji);
+        String alert = "Status Gaji Pokok " + gaji.getUser().getUsername() + " berhasil diubah";
         model.addAttribute("alert", alert);
         return "change-status-gaji";
 

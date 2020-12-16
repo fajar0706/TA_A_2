@@ -11,5 +11,4 @@ import java.util.Optional;
 public interface GajiDb extends JpaRepository<GajiModel,Integer> {
     Optional<GajiModel> findById(Integer id);
     GajiModel findGajiModelByUser(UserModel userModel);
-
 }
