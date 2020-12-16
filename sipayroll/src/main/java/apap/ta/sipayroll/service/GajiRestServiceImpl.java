@@ -22,7 +22,7 @@ public class GajiRestServiceImpl implements GajiRestService  {
 
 
     public GajiRestServiceImpl(WebClient.Builder webClientBuilder) {
-        this.webClient = webClientBuilder.baseUrl("https://f3ad8057-7cea-4404-8f78-33f3765c40dc.mock.pstmn.io").build();
+        this.webClient = webClientBuilder.baseUrl("https://440476fb-a716-4d90-bfb1-747de0a5ee61.mock.pstmn.io").build();
     }
 
     public WebClient getWebClient() {
@@ -31,7 +31,7 @@ public class GajiRestServiceImpl implements GajiRestService  {
 
     @Override
     public Mono<BaseResponse> getListPesertaPelatihan(){
-        return this.webClient.get().uri("/rest/sipelatihan/peserta").retrieve().bodyToMono(BaseResponse.class);
+        return this.webClient.get().uri("/rest/sipelatihan/peserta/{nama}").retrieve().bodyToMono(BaseResponse.class);
     }
 
 }

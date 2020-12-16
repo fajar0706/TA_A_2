@@ -17,11 +17,22 @@
         <input type="hidden" id="uuid_user" th:field="${gaji.user}"/>
         <input type="hidden"  id="gajiPokok" th:field="${gaji.gajiPokok}" />
         <input type="hidden"  id="tanggalMasuk" th:field="${gaji.tanggalMasuk}"/>
-        <select class="form-control form-control-lg" th:field="*{statusPersetujuan}">
-            <option value="0" >Menunggu Status Persetujuan</option>
-            <option value="1" >Ditolak</option>
-            <option value="2" selected >Disetujui</option>
-        </select>
+        <div th:if="${checkDisetujui}">
+            <p th:text="${notChange}" class="alert alert-info" role="alert"></p>
+            <select class="form-control form-control-lg" th:field="*{statusPersetujuan}" disabled>
+                <option value="0" >Menunggu Status Persetujuan</option>
+                <option value="1" >Ditolak</option>
+                <option value="2" selected >Disetujui</option>
+            </select>
+           
+        </div>
+        <div th:unless="${checkDisetujui}">
+            <select class="form-control form-control-lg" th:field="*{statusPersetujuan}">
+                <option value="0" >Menunggu Status Persetujuan</option>
+                <option value="1" >Ditolak</option>
+                <option value="2" >Disetujui</option>
+            </select>
+        </div>
            
         <!-- <div class="form-group row">
             <label type="hidden" for="uuid_user" class="col-sm-2 col-form-label" style="font-weight: bold">UUID User</label>

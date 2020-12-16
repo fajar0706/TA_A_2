@@ -65,23 +65,43 @@ public class GajiServiceImpl implements GajiService  {
        List<GajiModel> listgaji = gajiDb.findAll();
        List<Integer> jumlahTotalPendapatan = new ArrayList<Integer>();
 
-       for(GajiModel x: listgaji){
-           Integer tempGaji = x.getGajiPokok();
-           Integer tempKompensasi = x.getKompensasi().getKompensasiPerJam();
+    //    for(GajiModel x: listgaji){
+    //        Integer tempGaji = x.getGajiPokok();
+    //        Integer tempKompensasi = x.getKompensasi().getKompensasiPerJam();
 
-           Integer jamMulai = x.getKompensasi().getWaktuMulai().getHours();
-           Integer jamAkhir = x.getKompensasi().getWaktuSelesai().getHours();
-           Integer tempJam = jamAkhir-jamMulai;
+    //        Integer jamMulai = x.getKompensasi().getWaktuMulai().getHours();
+    //        Integer jamAkhir = x.getKompensasi().getWaktuSelesai().getHours();
+    //        Integer tempJam = jamAkhir-jamMulai;
 
-           Integer kompensasi = tempKompensasi*tempJam;
-           Integer total = tempGaji + kompensasi;
-           jumlahTotalPendapatan.add(total);
-       }
+    //        Integer kompensasi = tempKompensasi*tempJam;
+    //        Integer total = tempGaji + kompensasi;
+    //        jumlahTotalPendapatan.add(total);
+    //    }
        return jumlahTotalPendapatan;
    }
 
     @Override
     public GajiModel getGajiModelByUser(UserModel userModel) {
         return gajiDb.findGajiModelByUser(userModel);
+    }
+
+    @Override
+    public GajiModel changeStatus(GajiModel gaji, UserModel userPenyetuju) {
+        GajiModel targetGaji = gajiDb.findById(gaji.getId()).get();
+        try {
+            if(gaji.getStatusPersetujuan() == 1){
+                targetGaji.setStatusPersetujuan(gaji.getStatusPersetujuan());
+                gajiDb.save(targetGaji);
+            }
+            else{
+                targetGaji.setStatusPersetujuan(gaji.getStatusPersetujuan());
+                targetGaji.setUserPenyetuju(userPenyetuju);
+                gajiDb.save(targetGaji);
+            }
+           
+            return targetGaji;
+        } catch (NullPointerException nullException) {
+            return null;
+        }
     }
 }

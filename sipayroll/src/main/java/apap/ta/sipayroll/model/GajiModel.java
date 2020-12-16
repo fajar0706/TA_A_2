@@ -53,17 +53,17 @@ public class GajiModel implements Serializable {
     @OneToMany(mappedBy="gaji",fetch=FetchType.LAZY,cascade= CascadeType.ALL)
     private List<LemburModel> listLembur;
 
-    @OneToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="id_lembur",referencedColumnName = "id")
-    private LemburModel kompensasi;
+    // @OneToOne(fetch=FetchType.EAGER)
+    // @JoinColumn(name="id_lembur",referencedColumnName = "id")
+    // private LemburModel kompensasi;
 
-    public LemburModel getKompensasi() {
-        return kompensasi;
-    }
+    // public LemburModel getKompensasi() {
+    //     return kompensasi;
+    // }
 
-    public void setKompensasi(LemburModel kompensasi) {
-        this.kompensasi = kompensasi;
-    }
+    // public void setKompensasi(LemburModel kompensasi) {
+    //     this.kompensasi = kompensasi;
+    // }
 
     public void setStatusPersetujuan(Integer statusPersetujuan) {
         this.statusPersetujuan = statusPersetujuan;

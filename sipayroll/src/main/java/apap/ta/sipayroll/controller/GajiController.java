@@ -9,6 +9,7 @@ import apap.ta.sipayroll.service.RoleService;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,11 @@ import apap.ta.sipayroll.service.GajiRestService;
 import apap.ta.sipayroll.rest.BaseResponse;
 import reactor.core.publisher.Mono;
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
+
 import apap.ta.sipayroll.rest.PesertaDetail;
 
 @Controller
@@ -85,12 +90,18 @@ public class GajiController {
         GajiModel gaji = gajiService.getGajiById(id);
         Mono<BaseResponse> response= gajiRestService.getListPesertaPelatihan();
         BaseResponse fix = response.block();
-        List<PesertaDetail> listPeserta = (List<PesertaDetail>) fix.getResult();
-        System.out.println(listPeserta);
-        
-        
-        
+        System.out.println(fix.getResult());
+       
 
+       
+        // List<PesertaDetail> listPeserta = (List<PesertaDetail>) fix.getResult();
+        // PesertaDetail pesertadetail = ObjectMapper.convertValue(singleObject, PesertaDetail.class);
+        // List<PesertaDetail> listPeserta = mappper.convertValue(fix.getResult(), new TypeReference<List<PesertDetail>>(){});
+        // System.out.println(listPeserta);
+        // linkedHashedmap <string,string>
+        // for (PesertaDetail peserta : listPeserta){
+        //     System.out.println(peserta.getNama());
+        // }
 //        List<Integer> listTotalPendapatan = gajiService.totalPendapatan();
 //        model.addAttribute("listTotalPendapatan", listTotalPendapatan);
         model.addAttribute("gaji", gaji);
@@ -157,24 +168,38 @@ public class GajiController {
         return "ubah-data-gaji";
     }
     @GetMapping("/gaji/change/status/{idGaji}")
-    public String changeStatuFormPage(@PathVariable Integer idGaji, Model model) {
+    public String changeStatusFormPage(@PathVariable Integer idGaji, Model model) {
         GajiModel gaji = gajiService.getGajiById(idGaji);
-        model.addAttribute("gaji", gaji);
-        return "form-change-status-gaji";
+        boolean checkDisetujui;
+        String notChange;
+        if(gaji.getStatusPersetujuan()==2){
+            checkDisetujui = true;
+            notChange = "Status Persetujuan Sudah Disetujui Tidak Dapat Diubah";
+            model.addAttribute("notChange",notChange);
+            model.addAttribute("checkDisetujui", checkDisetujui);
+            model.addAttribute("gaji", gaji);
+            model.addAttribute("role",roleService);
+            return "form-change-status-gaji";
+        }
+        else{
+            model.addAttribute("gaji", gaji);
+            model.addAttribute("role",roleService);
+            return "form-change-status-gaji";
+        }
         
     }
 
     @PostMapping("/gaji/change/status")
-    public String changeStatusGajiSubmit(@ModelAttribute GajiModel gaji, Model model) {
+    public String changeStatusGajiSubmit(@ModelAttribute GajiModel gaji, Model model, @CurrentSecurityContext(expression = "authentication.name") String username){
         
-        UserModel userAktif = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        gaji.setUserPenyetuju(userAktif);
-        gajiService.changeGaji(gaji);
-        model.addAttribute("gaji", gaji);
-        String alert = "Status Gaji Pokok " + gaji.getUser().getUsername() + " berhasil diubah";
+        UserModel userAktif = userService.getUserModelByUsername(username);
+        GajiModel gajiUpdated = gajiService.changeStatus(gaji,userAktif);
+        System.out.println(userAktif.getUsername());
+
+        model.addAttribute("gajiUpdated", gajiUpdated);
+        String alert = "Status Gaji Pokok " + gajiUpdated.getUser().getUsername() + " berhasil diubah";
         model.addAttribute("alert", alert);
         return "change-status-gaji";
 
     }
-
 }

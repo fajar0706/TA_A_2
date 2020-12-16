@@ -21,4 +21,6 @@ public interface GajiService {
     List<Integer> totalPendapatan();
 
     GajiModel getGajiModelByUser(UserModel userModel);
+
+    GajiModel changeStatus(GajiModel gaji, UserModel userPenyetuju);
 }
