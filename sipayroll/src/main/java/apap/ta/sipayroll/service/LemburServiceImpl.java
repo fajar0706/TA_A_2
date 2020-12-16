@@ -46,4 +46,13 @@ public class LemburServiceImpl implements LemburService {
         return lemburDb.findAll();
     }
 
+    @Override
+    public void deleteLembur(LemburModel lembur) {
+        lemburDb.delete(lembur);
+    }
+
+    @Override
+    public List<LemburModel> findAllLembur() {
+        return lemburDb.findAll();
+    }
 }

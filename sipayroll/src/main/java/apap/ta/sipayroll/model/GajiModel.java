@@ -38,7 +38,7 @@ public class GajiModel implements Serializable {
     @JsonIgnore
     private UserModel userPengaju;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
     @JoinColumn(name = "uuid_penyetuju",referencedColumnName = "id",nullable = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
@@ -50,24 +50,16 @@ public class GajiModel implements Serializable {
     @JsonIgnore
     private UserModel user;
 
-    @OneToMany(mappedBy="gaji",fetch=FetchType.LAZY,cascade= CascadeType.ALL)
-    private List<LemburModel> listLembur;
+    @OneToMany(mappedBy = "gaji", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<LemburModel> lemburList;
 
-    @OneToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="id_lembur",referencedColumnName = "id")
-    private LemburModel kompensasi;
 
-    public LemburModel getKompensasi() {
-        return kompensasi;
-    }
-
-    public void setKompensasi(LemburModel kompensasi) {
-        this.kompensasi = kompensasi;
-    }
-
-    public void setStatusPersetujuan(Integer statusPersetujuan) {
-        this.statusPersetujuan = statusPersetujuan;
-    }
+    @OneToMany(mappedBy = "gaji", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<BonusModel> bonusList;
 
     public Integer getId() {
         return id;
@@ -89,7 +81,7 @@ public class GajiModel implements Serializable {
         return statusPersetujuan;
     }
 
-    public void setStatusPersetujuan(int statusPersetujuan) {
+    public void setStatusPersetujuan(Integer statusPersetujuan) {
         this.statusPersetujuan = statusPersetujuan;
     }
 
@@ -124,11 +116,20 @@ public class GajiModel implements Serializable {
     public void setUser(UserModel user) {
         this.user = user;
     }
-    public List<LemburModel> getListLembur() {
-        return this.listLembur;
+
+    public List<LemburModel> getLemburList() {
+        return lemburList;
     }
 
-    public void setListLembur(List<LemburModel> listLembur) {
-        this.listLembur = listLembur;
+    public void setLemburList(List<LemburModel> lemburList) {
+        this.lemburList = lemburList;
+    }
+
+    public List<BonusModel> getBonusList() {
+        return bonusList;
+    }
+
+    public void setBonusList(List<BonusModel> bonusList) {
+        this.bonusList = bonusList;
     }
 }
