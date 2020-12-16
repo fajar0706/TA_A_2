@@ -10,4 +10,6 @@ public interface LemburService {
     LemburModel getLemburByIdLembur(Long idLembur);
     LemburModel updateLembur(LemburModel lembur);
     List<LemburModel> getLemburList();
+    void deleteLembur(LemburModel lembur);
+    List<LemburModel> findAllLembur();
 }

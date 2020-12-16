@@ -69,18 +69,48 @@ public class LemburController {
     @GetMapping("/lembur/change/{idLembur}")
     public String changeLemburFormPage(@PathVariable Long idLembur, Model model) {
         LemburModel lembur = lemburService.getLemburByIdLembur(idLembur);
-        model.addAttribute("lembur", lembur);
-        model.addAttribute("role",roleService);
-        return "form-change-lembur";
+        boolean checkDisetujui;
+        String notChange;
+        if(lembur.getStatusPersetujuan()==2){
+            checkDisetujui = true;
+            notChange = "Status Persetujuan Sudah Disetujui Tidak Dapat Diubah";
+            model.addAttribute("notChange",notChange);
+            model.addAttribute("checkDisetujui", checkDisetujui);
+            model.addAttribute("lembur", lembur);
+            model.addAttribute("role",roleService);
+            return "form-change-lembur";
+        }
+        else{
+            model.addAttribute("lembur", lembur);
+            model.addAttribute("role",roleService);
+            return "form-change-lembur";
+        }
+        
     }
 
     @PostMapping("/lembur/change")
     public String changeLemburSubmit(@ModelAttribute LemburModel lembur, Model model) {
-        LemburModel lemburUpdated = lemburService.updateLembur(lembur);
-        GajiModel gaji = lemburUpdated.getGaji();
-        model.addAttribute("lemburUpdated",lemburUpdated);
-        model.addAttribute("gaji", gaji);
-        return "change-lembur";
+        
+        boolean checkDisetujui;
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String start = dateFormat.format(lembur.getWaktuMulai());
+        String finish = dateFormat.format(lembur.getWaktuSelesai());
+        String notMatch;
+        String notChange;
+            if (!start.equals(finish)){
+                notMatch = "Waktu lembur harus dalam tanggal yang sama!";
+                model.addAttribute("notMatch", notMatch);
+                model.addAttribute("lembur", new LemburModel());
+                model.addAttribute("role",roleService);
+                return "form-change-lembur";
+            }else{
+                LemburModel lemburUpdated = lemburService.updateLembur(lembur);
+                GajiModel gaji = lemburUpdated.getGaji();
+                model.addAttribute("lemburUpdated",lemburUpdated);
+                model.addAttribute("gaji", gaji);
+            return "change-lembur";
+            }
+        
     }
 
     @RequestMapping("/lembur/viewall")
@@ -88,5 +118,15 @@ public class LemburController {
         List<LemburModel> listLembur = lemburService.getLemburList();
         model.addAttribute("listLembur", listLembur);
         return "viewall-lembur";
+    }
+
+    @RequestMapping(value={"/lembur/delete/", "/lembur/delete/id/{idLembur}"})
+    public String delete(
+            @PathVariable(value="idLembur", required = false) Long idLembur, Model model) {
+        LemburModel lembur = lemburService.getLemburByIdLembur(idLembur);
+        lemburService.deleteLembur(lembur);
+        // UserModel user = userService.getUserModelByUsername(lembur.getUser().getUsername());
+        // model.addAttribute("user", user);
+        return "delete-lembur";
     }
 }

@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <title> Add Gaji </title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
-
 <body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
 
 
     <!-- <h4 class="text-center" style="font-family: Poppins;font-weight: bold;">Add Gaji</h4>
@@ -23,7 +22,7 @@
             <button class="btn btn-success" type="submit">Submit</button>
 
         </form> -->
-    <nav th:replace="fragments/fragment :: navbar"></nav>
+
 <!--    <br>-->
 <!--    <div class="fontsipayroll">-->
 <!--        <div class="row text-form">-->
@@ -98,5 +97,4 @@
     </form>
 </div>
 </body>
-
 </html>
