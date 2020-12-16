@@ -50,21 +50,16 @@ public class GajiModel implements Serializable {
     @JsonIgnore
     private UserModel user;
 
-    @OneToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="id_lembur",referencedColumnName = "id")
-    private LemburModel kompensasi;
+    @OneToMany(mappedBy = "gaji", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<LemburModel> lemburList;
 
-    public LemburModel getKompensasi() {
-        return kompensasi;
-    }
 
-    public void setKompensasi(LemburModel kompensasi) {
-        this.kompensasi = kompensasi;
-    }
-
-    public void setStatusPersetujuan(Integer statusPersetujuan) {
-        this.statusPersetujuan = statusPersetujuan;
-    }
+    @OneToMany(mappedBy = "gaji", fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<BonusModel> bonusList;
 
     public Integer getId() {
         return id;
@@ -86,7 +81,7 @@ public class GajiModel implements Serializable {
         return statusPersetujuan;
     }
 
-    public void setStatusPersetujuan(int statusPersetujuan) {
+    public void setStatusPersetujuan(Integer statusPersetujuan) {
         this.statusPersetujuan = statusPersetujuan;
     }
 
@@ -120,5 +115,21 @@ public class GajiModel implements Serializable {
 
     public void setUser(UserModel user) {
         this.user = user;
+    }
+
+    public List<LemburModel> getLemburList() {
+        return lemburList;
+    }
+
+    public void setLemburList(List<LemburModel> lemburList) {
+        this.lemburList = lemburList;
+    }
+
+    public List<BonusModel> getBonusList() {
+        return bonusList;
+    }
+
+    public void setBonusList(List<BonusModel> bonusList) {
+        this.bonusList = bonusList;
     }
 }

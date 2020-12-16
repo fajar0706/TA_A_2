@@ -1,5 +1,8 @@
 package apap.ta.sipayroll.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -20,26 +23,10 @@ public class LemburModel implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date waktuMulai;
 
-    public Date getWaktuMulai() {
-        return this.waktuMulai;
-    }
-
-    public void setWaktuMulai(Date waktuMulai) {
-        this.waktuMulai = waktuMulai;
-    }
-
     @NotNull
     @Column(name = "waktu_selesai", nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date waktuSelesai;
-
-    public Date getWaktuSelesai() {
-        return this.waktuSelesai;
-    }
-
-    public void setWaktuSelesai(Date waktuSelesai) {
-        this.waktuSelesai = waktuSelesai;
-    }
 
     @NotNull
     @Column(name = "kompensasi_per_jam")
@@ -49,65 +36,57 @@ public class LemburModel implements Serializable {
     @Column(name = "status_persetujuan")
     private Integer statusPersetujuan;
 
-    // @Id
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    @OneToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="id_gaji",referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "id_gaji", referencedColumnName = "id", nullable = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private GajiModel gaji;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getWaktuMulai() {
+        return waktuMulai;
+    }
+
+    public void setWaktuMulai(Date waktuMulai) {
+        this.waktuMulai = waktuMulai;
+    }
+
+    public Date getWaktuSelesai() {
+        return waktuSelesai;
+    }
+
+    public void setWaktuSelesai(Date waktuSelesai) {
+        this.waktuSelesai = waktuSelesai;
+    }
+
+    public Integer getKompensasiPerJam() {
+        return kompensasiPerJam;
+    }
+
+    public void setKompensasiPerJam(Integer kompensasiPerJam) {
+        this.kompensasiPerJam = kompensasiPerJam;
+    }
+
+    public Integer getStatusPersetujuan() {
+        return statusPersetujuan;
+    }
+
+    public void setStatusPersetujuan(Integer statusPersetujuan) {
+        this.statusPersetujuan = statusPersetujuan;
+    }
+
     public GajiModel getGaji() {
-        return this.gaji;
+        return gaji;
     }
 
     public void setGaji(GajiModel gaji) {
         this.gaji = gaji;
     }
-
-    /**
-     * @return Long return the id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param id the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-    
-
-    /**
-     * @return Integer return the kompensasiPerJam
-     */
-    public Integer getKompensasiPerJam() {
-        return kompensasiPerJam;
-    }
-
-    /**
-     * @param kompensasiPerJam the kompensasiPerJam to set
-     */
-    public void setKompensasiPerJam(Integer kompensasiPerJam) {
-        this.kompensasiPerJam = kompensasiPerJam;
-    }
-
-    /**
-     * @return Integer return the statusPersetujuan
-     */
-    public Integer getStatusPersetujuan() {
-        return statusPersetujuan;
-    }
-
-    /**
-     * @param statusPersetujuan the statusPersetujuan to set
-     */
-    public void setStatusPersetujuan(Integer statusPersetujuan) {
-        this.statusPersetujuan = statusPersetujuan;
-    }
-
-   
 }
