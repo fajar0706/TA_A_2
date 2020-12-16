@@ -18,6 +18,8 @@ public interface GajiService {
 
     GajiModel changeGaji(GajiModel gaji);
 
+    Integer totalPendapatan(GajiModel gaji);
+
     List<Integer> totalPendapatan();
 
     GajiModel getGajiModelByUser(UserModel userModel);

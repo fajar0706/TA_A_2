@@ -1,9 +1,12 @@
 package apap.ta.sipayroll.controller;
 
 
+import apap.ta.sipayroll.model.BonusModel;
 import apap.ta.sipayroll.model.GajiModel;
+import apap.ta.sipayroll.model.LemburModel;
 import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.service.GajiService;
+import apap.ta.sipayroll.service.LemburService;
 import apap.ta.sipayroll.service.UserService;
 import apap.ta.sipayroll.service.RoleService;
 import org.apache.catalina.User;
@@ -15,7 +18,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class GajiController {
@@ -30,6 +36,9 @@ public class GajiController {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private LemburService lemburService;
 
     @GetMapping("/gaji/add")
     public String addGajiFormPage(Model model){
@@ -67,7 +76,20 @@ public class GajiController {
     @RequestMapping("/gaji/viewall")
     public String listGaji(Model model){
         List<GajiModel> listGaji = gajiService.getGajiList();
+        List<GajiModel> gajiModelList = new ArrayList<>();
+        List<Integer> totalPendapatanList = new ArrayList<>();
+//        HashMap<GajiModel,Integer> test = new HashMap<GajiModel,Integer>();
+//        for (int i = 0; i < listGaji.size() ; i++) {
+//            GajiModel gaji = gajiService.getGajiById(i);
+//            Integer totalPendapatan = gajiService.totalPendapatan(gaji);
+//            test.put(gaji,totalPendapatan);
+//            gajiModelList.add(gaji);
+//            totalPendapatanList.add(totalPendapatan);
+//        }
+        List<Integer> listTotalPendapatan = gajiService.totalPendapatan();
+        model.addAttribute("listTotalPendapatan", listTotalPendapatan);
         model.addAttribute( "listGaji",listGaji);
+//        model.addAttribute( "test",test);
 		model.addAttribute("role",roleService);
         return "viewall-gaji";
     }
@@ -76,9 +98,9 @@ public class GajiController {
     public String viewGaji(
             @PathVariable(value = "id") Integer id, Model model){
         GajiModel gaji = gajiService.getGajiById(id);
-//        List<Integer> listTotalPendapatan = gajiService.totalPendapatan();
-//        model.addAttribute("listTotalPendapatan", listTotalPendapatan);
+        Integer totalPendapatan = gajiService.totalPendapatan(gaji);
         model.addAttribute("gaji", gaji);
+        model.addAttribute("totalPendapatan", totalPendapatan);
         return "view-gaji";
     }
 
@@ -162,6 +184,6 @@ public class GajiController {
         String alert = "Status Gaji Pokok " + gaji.getUser().getUsername() + " berhasil diubah";
         model.addAttribute("alert", alert);
         return "change-status-gaji";
-
     }
+
 }
