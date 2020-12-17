@@ -23,4 +23,5 @@ public class DataRestController {
     private List<Map<String,Object>> retrieveListKaryawanLama(){
         return dataRestService.findDataKaryawanLama();
     }
+    
 }
