@@ -3,6 +3,7 @@ package apap.ta.sipayroll.restcontroller;
 import apap.ta.sipayroll.model.BonusModel;
 import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.rest.BaseResponse;
+import apap.ta.sipayroll.rest.BaseResponseGaji;
 import apap.ta.sipayroll.rest.BonusDetail;
 import apap.ta.sipayroll.service.*;
 import org.apache.catalina.User;
@@ -39,9 +40,9 @@ public class BonusRestController {
     private BonusRestService bonusRestService;
 
     @PostMapping(value = "/bonus")
-    private BaseResponse<BonusModel> addBonus(@Valid @RequestBody BonusDetail userPelatihan,
+    private BaseResponseGaji<BonusModel> addBonus(@Valid @RequestBody BonusDetail userPelatihan,
                                               BindingResult bindingResult){
-        BaseResponse<BonusModel> response = new BaseResponse<>();
+        BaseResponseGaji<BonusModel> response = new BaseResponseGaji<>();
         if(bindingResult.hasErrors()){
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Request body has invalid type or missing field"

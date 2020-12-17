@@ -1,9 +1,6 @@
 package apap.ta.sipayroll.controller;
 
-
-import apap.ta.sipayroll.model.BonusModel;
 import apap.ta.sipayroll.model.GajiModel;
-import apap.ta.sipayroll.model.LemburModel;
 import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.service.GajiService;
 import apap.ta.sipayroll.service.LemburService;
@@ -12,16 +9,26 @@ import apap.ta.sipayroll.service.RoleService;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import apap.ta.sipayroll.service.BonusService;
+import apap.ta.sipayroll.service.GajiRestService;
+import apap.ta.sipayroll.rest.BaseResponse;
+import apap.ta.sipayroll.rest.BaseResponseGaji;
+import reactor.core.publisher.Mono;
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
+
+import apap.ta.sipayroll.rest.PesertaDetail;
 
 @Controller
 public class GajiController {
@@ -38,7 +45,13 @@ public class GajiController {
     private RoleService roleService;
 
     @Autowired
+    private GajiRestService gajiRestService;
+
+    @Autowired
     private LemburService lemburService;
+
+    @Autowired
+    private BonusService bonusService;
 
     @GetMapping("/gaji/add")
     public String addGajiFormPage(Model model){
@@ -63,6 +76,7 @@ public class GajiController {
             if(listGaji.get(i).getUser() == userTarget){
                 model.addAttribute("text",text);
                 return "add-gaji";
+
             }
         }
         gajiService.addGaji(gaji);
@@ -76,20 +90,38 @@ public class GajiController {
     @RequestMapping("/gaji/viewall")
     public String listGaji(Model model){
         List<GajiModel> listGaji = gajiService.getGajiList();
+
+        List<GajiModel> GajiModelList = new ArrayList<>();
+        // List<Integer> totalPendapatanList = new HashMap<GajiModel,Integer>();
         List<Integer> listTotalPendapatan = gajiService.totalPendapatan();
-        model.addAttribute("listTotalPendapatan", listTotalPendapatan);
+        model.addAttribute("listTotalPendapatan",listTotalPendapatan);
         model.addAttribute( "listGaji",listGaji);
 		model.addAttribute("role",roleService);
         return "viewall-gaji";
     }
 
-    @GetMapping("/gaji/{id}")
+    @GetMapping("/gaji/{id}/{username}")
     public String viewGaji(
-            @PathVariable(value = "id") Integer id, Model model){
+        @PathVariable(value = "id") Integer id, @PathVariable(value="username") String username, Model model){
         GajiModel gaji = gajiService.getGajiById(id);
-        Integer totalPendapatan = gajiService.totalPendapatan(gaji);
+        Mono<BaseResponseGaji> response= gajiRestService.getListPesertaPelatihan(username);
+        BaseResponseGaji fix = response.block();
+        List<LinkedHashMap<String,String>> tempPeserta= (List<LinkedHashMap<String,String>>)fix.getResult();
+        Boolean tidakPernahPelatihan = false;
+
+        if(tempPeserta.size()<1){
+            tidakPernahPelatihan = true;
+        }
+        else{
+        }
+        String  uuid = gaji.getUser().getId();
+        Integer jumlahLembur = lemburService.totalLembur(gaji);
+        Integer jumlahBonus = bonusService.totalBonus(gaji);
         model.addAttribute("gaji", gaji);
-        model.addAttribute("totalPendapatan", totalPendapatan);
+        model.addAttribute("uuid",uuid);
+        model.addAttribute("jumlahLembur",jumlahLembur);
+        model.addAttribute("jumlahBonus",jumlahBonus);
+        model.addAttribute("tidakPernahPelatihan",tidakPernahPelatihan);
         return "view-gaji";
     }
 
@@ -146,7 +178,6 @@ public class GajiController {
             return "ubah-data-gaji";
         }
         gaji.setUserPengaju(userAktif);
-        gajiPok.setUserPenyetuju(null);
         gaji.setUser(userModel);
         gajiService.changeGaji(gaji);
         text = "Gaji Pokok " + gajiPok.getUser().getUsername() + " berhasil diubah";
@@ -156,16 +187,28 @@ public class GajiController {
     @GetMapping("/gaji/change/status/{idGaji}")
     public String changeStatusFormPage(@PathVariable Integer idGaji, Model model) {
         GajiModel gaji = gajiService.getGajiById(idGaji);
-        model.addAttribute("gaji", gaji);
-        return "form-change-status-gaji";
+        boolean checkDisetujui;
+        String notChange;
+        if(gaji.getStatusPersetujuan()==2){
+            checkDisetujui = true;
+            notChange = "Status Persetujuan Sudah Disetujui Tidak Dapat Diubah";
+            model.addAttribute("notChange",notChange);
+            model.addAttribute("checkDisetujui", checkDisetujui);
+            model.addAttribute("gaji", gaji);
+            model.addAttribute("role",roleService);
+            return "form-change-status-gaji";
+        }
+        else{
+            model.addAttribute("gaji", gaji);
+            model.addAttribute("role",roleService);
+            return "form-change-status-gaji";
+        }
         
     }
 
-    @PostMapping("/gaji/change/status/{id}")
-    public String changeStatusGajiSubmit(
-            @PathVariable Integer id,
-            @ModelAttribute GajiModel gaji, Model model) {
-        GajiModel gajiPok = gajiService.getGajiById(id);
+    @PostMapping("/gaji/change/status{id}")
+    public String changeStatusGajiSubmit(@PathVariable Integer id, @ModelAttribute GajiModel gaji, Model model){
+        GajiModel  gajiPok = gajiService.getGajiById(id);
         UserModel userAktif = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         gajiPok.setUserPenyetuju(userAktif);
         gajiService.changeStatus(gaji);
@@ -173,6 +216,6 @@ public class GajiController {
         String alert = "Status Gaji Pokok " + gaji.getUser().getUsername() + " berhasil diubah";
         model.addAttribute("alert", alert);
         return "change-status-gaji";
-    }
 
+    }
 }
