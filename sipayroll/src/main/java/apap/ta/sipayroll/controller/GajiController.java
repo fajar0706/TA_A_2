@@ -1,9 +1,9 @@
 package apap.ta.sipayroll.controller;
 
-
 import apap.ta.sipayroll.model.GajiModel;
 import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.service.GajiService;
+import apap.ta.sipayroll.service.LemburService;
 import apap.ta.sipayroll.service.UserService;
 import apap.ta.sipayroll.service.RoleService;
 import org.apache.catalina.User;
@@ -14,11 +14,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import apap.ta.sipayroll.service.BonusService;
 import apap.ta.sipayroll.service.GajiRestService;
 import apap.ta.sipayroll.rest.BaseResponse;
 import reactor.core.publisher.Mono;
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +45,12 @@ public class GajiController {
 
     @Autowired
     private GajiRestService gajiRestService;
+
+    @Autowired
+    private LemburService lemburService;
+
+    @Autowired
+    private BonusService bonusService;
 
     @GetMapping("/gaji/add")
     public String addGajiFormPage(Model model){
@@ -79,47 +89,37 @@ public class GajiController {
     @RequestMapping("/gaji/viewall")
     public String listGaji(Model model){
         List<GajiModel> listGaji = gajiService.getGajiList();
+        List<GajiModel> GajiModelList = new ArrayList<>();
+        // List<Integer> totalPendapatanList = new HashMap<GajiModel,Integer>();
+        List<Integer> listTotalPendapatan = gajiService.totalPendapatan();
+        model.addAttribute("listTotalPendapatan",listTotalPendapatan);
         model.addAttribute( "listGaji",listGaji);
 		model.addAttribute("role",roleService);
         return "viewall-gaji";
     }
 
-    @GetMapping("/gaji/{id}")
+    @GetMapping("/gaji/{id}/{username}")
     public String viewGaji(
-        @PathVariable(value = "id") Integer id, Model model){
+        @PathVariable(value = "id") Integer id, @PathVariable(value="username") String username, Model model){
         GajiModel gaji = gajiService.getGajiById(id);
-        Mono<BaseResponse> response= gajiRestService.getListPesertaPelatihan();
+        Mono<BaseResponse> response= gajiRestService.getListPesertaPelatihan(username);
         BaseResponse fix = response.block();
+        List<LinkedHashMap<String,String>> tempPeserta= (List<LinkedHashMap<String,String>>)fix.getResult();
+        Boolean tidakPernahPelatihan = false;
 
-        List<LinkedHashMap<String,String>> pesserta = (List<LinkedHashMap<String,String>>) fix.getResult();
-        System.out.println(pesserta);
-        // System.out.println(fix.getResult());
-        // List<LinkedHashMap<String,String>> tempPeserta= (List<LinkedHashMap<String,String>>)fix.getResult();
-        // List<PesertaDetail> listPeserta = new ArrayList<>();
-
-        // for (LinkedHashMap<String,String> x : tempPeserta){
-        //     Set<String> keys = x.keySet();
-        //     PesertaDetail pesertaTemp = new PesertaDetail();
-        //     for (String y : keys){
-        //         if(k.equals("nama")){
-        //             pesertaTemp.setNama();
-        //         }
-        //         if(k.equals("id")){
-        //             pesertaTemp.setId();
-        //         }
-        //     }
-        
-        // List<PesertaDetail> listPeserta = (List<PesertaDetail>) fix.getResult();
-        // PesertaDetail pesertadetail = ObjectMapper.convertValue(singleObject, PesertaDetail.class);
-        // List<PesertaDetail> listPeserta = mappper.convertValue(fix.getResult(), new TypeReference<List<PesertDetail>>(){});
-        // System.out.println(listPeserta);
-        // linkedHashedmap <string,string>
-        // for (PesertaDetail peserta : listPeserta){
-        //     System.out.println(peserta.getNama());
-        // }
-//        List<Integer> listTotalPendapatan = gajiService.totalPendapatan();
-//        model.addAttribute("listTotalPendapatan", listTotalPendapatan);
+        if(tempPeserta.size()<1){
+            tidakPernahPelatihan = true;
+        }
+        else{
+        }
+        String  uuid = gaji.getUser().getId();
+        Integer jumlahLembur = lemburService.totalLembur(gaji);
+        Integer jumlahBonus = bonusService.totalBonus(gaji);
         model.addAttribute("gaji", gaji);
+        model.addAttribute("uuid",uuid);
+        model.addAttribute("jumlahLembur",jumlahLembur);
+        model.addAttribute("jumlahBonus",jumlahBonus);
+        model.addAttribute("tidakPernahPelatihan",tidakPernahPelatihan);
         return "view-gaji";
     }
 

@@ -1,33 +1,41 @@
 package apap.ta.sipayroll.rest;
 
-public class BaseResponse<T> {
-    private int status;
-    private String message;
-    private T result;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-  
-    public int getStatus() {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class BaseResponse {
+
+    @JsonProperty("status")
+    private String status;
+
+    @JsonProperty("message")
+    private String message;
+
+    @JsonProperty("result")
+    private UserDetail userDetail;
+
+    public String getStatus() {
         return status;
     }
-    
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getMessage() {
         return message;
     }
-    
-    public T getResult() {
-        return result;
-    }
 
-    
-    public void setStatus(int status) {
-        this.status = status;
-    }
-   
     public void setMessage(String message) {
         this.message = message;
     }
-    
-    public void setResult(T result) {
-        this.result = result;
+
+    public UserDetail getUserDetail() {
+        return userDetail;
+    }
+
+    public void setUserDetail(UserDetail userDetail) {
+        this.userDetail = userDetail;
     }
 }

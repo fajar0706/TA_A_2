@@ -30,8 +30,7 @@ public class GajiRestServiceImpl implements GajiRestService  {
     }
 
     @Override
-    public Mono<BaseResponse> getListPesertaPelatihan(){
-        return this.webClient.get().uri("/rest/sipelatihan/peserta/{nama}").retrieve().bodyToMono(BaseResponse.class);
+    public Mono<BaseResponse> getListPesertaPelatihan(String username){
+        return this.webClient.get().uri("/rest/sipelatihan-by-username/" + username).retrieve().bodyToMono(BaseResponse.class);
     }
-
 }
