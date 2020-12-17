@@ -12,4 +12,5 @@ public interface LemburService {
     List<LemburModel> getLemburList();
     void deleteLembur(LemburModel lembur);
     List<LemburModel> findAllLembur();
+    Integer totalLembur(GajiModel gaji);
 }
