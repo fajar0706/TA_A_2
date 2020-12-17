@@ -76,20 +76,9 @@ public class GajiController {
     @RequestMapping("/gaji/viewall")
     public String listGaji(Model model){
         List<GajiModel> listGaji = gajiService.getGajiList();
-        List<GajiModel> gajiModelList = new ArrayList<>();
-        List<Integer> totalPendapatanList = new ArrayList<>();
-//        HashMap<GajiModel,Integer> test = new HashMap<GajiModel,Integer>();
-//        for (int i = 0; i < listGaji.size() ; i++) {
-//            GajiModel gaji = gajiService.getGajiById(i);
-//            Integer totalPendapatan = gajiService.totalPendapatan(gaji);
-//            test.put(gaji,totalPendapatan);
-//            gajiModelList.add(gaji);
-//            totalPendapatanList.add(totalPendapatan);
-//        }
         List<Integer> listTotalPendapatan = gajiService.totalPendapatan();
         model.addAttribute("listTotalPendapatan", listTotalPendapatan);
         model.addAttribute( "listGaji",listGaji);
-//        model.addAttribute( "test",test);
 		model.addAttribute("role",roleService);
         return "viewall-gaji";
     }
