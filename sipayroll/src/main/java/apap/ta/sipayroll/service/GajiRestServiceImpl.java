@@ -5,7 +5,7 @@ import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.repository.GajiDb;
 import apap.ta.sipayroll.repository.LemburDb;
 import reactor.core.publisher.Mono;
-import apap.ta.sipayroll.rest.BaseResponse;
+import apap.ta.sipayroll.rest.BaseResponseGaji;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class GajiRestServiceImpl implements GajiRestService  {
     }
 
     @Override
-    public Mono<BaseResponse> getListPesertaPelatihan(String username){
-        return this.webClient.get().uri("/rest/sipelatihan-by-username/" + username).retrieve().bodyToMono(BaseResponse.class);
+    public Mono<BaseResponseGaji> getListPesertaPelatihan(String username){
+        return this.webClient.get().uri("/rest/sipelatihan-by-username/" + username).retrieve().bodyToMono(BaseResponseGaji.class);
     }
 }

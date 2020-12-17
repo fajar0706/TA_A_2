@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import apap.ta.sipayroll.service.BonusService;
 import apap.ta.sipayroll.service.GajiRestService;
 import apap.ta.sipayroll.rest.BaseResponse;
+import apap.ta.sipayroll.rest.BaseResponseGaji;
 import reactor.core.publisher.Mono;
 import javax.servlet.http.HttpServletRequest;
 
@@ -102,8 +103,8 @@ public class GajiController {
     public String viewGaji(
         @PathVariable(value = "id") Integer id, @PathVariable(value="username") String username, Model model){
         GajiModel gaji = gajiService.getGajiById(id);
-        Mono<BaseResponse> response= gajiRestService.getListPesertaPelatihan(username);
-        BaseResponse fix = response.block();
+        Mono<BaseResponseGaji> response= gajiRestService.getListPesertaPelatihan(username);
+        BaseResponseGaji fix = response.block();
         List<LinkedHashMap<String,String>> tempPeserta= (List<LinkedHashMap<String,String>>)fix.getResult();
         Boolean tidakPernahPelatihan = false;
 
