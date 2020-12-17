@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -54,5 +56,22 @@ public class LemburServiceImpl implements LemburService {
     @Override
     public List<LemburModel> findAllLembur() {
         return lemburDb.findAll();
+    }
+
+    @Override
+    public Integer totalLembur(GajiModel gaji){
+        List<LemburModel> daftarLembur= lemburDb.findByGaji(gaji);
+        Integer total = 0;
+        for(LemburModel lembur : daftarLembur){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(lembur.getWaktuMulai());
+            int hoursMulai = calendar.get(Calendar.HOUR_OF_DAY);
+            calendar.setTime(lembur.getWaktuSelesai());
+            int hoursSelesai = calendar.get(Calendar.HOUR_OF_DAY);
+            int selisih = hoursSelesai-hoursMulai;
+
+            total+= lembur.getKompensasiPerJam()*selisih;
+        }
+        return total;
     }
 }

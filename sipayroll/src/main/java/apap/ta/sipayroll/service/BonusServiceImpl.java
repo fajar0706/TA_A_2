@@ -1,11 +1,14 @@
 package apap.ta.sipayroll.service;
 
 import apap.ta.sipayroll.model.BonusModel;
+import apap.ta.sipayroll.model.GajiModel;
 import apap.ta.sipayroll.repository.BonusDb;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -22,5 +25,15 @@ public class BonusServiceImpl implements BonusService{
     @Override
     public List<BonusModel> findAllBonus() {
         return bonusDb.findAll();
+    }
+    @Override
+    public Integer totalBonus(GajiModel gaji){
+        List<BonusModel> daftarBonus= bonusDb.findByGaji(gaji);
+        Integer total = 0;
+        for(BonusModel bonus : daftarBonus){
+    
+            total+=bonus.getJumlahBonus();
+        }
+        return total;
     }
 }
