@@ -19,14 +19,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                //.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()).and()
                 .authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
                 .antMatchers("/user/addUser").permitAll()
+                .antMatchers("/api/v1/**").permitAll()
                 .antMatchers("/gaji/add").hasAnyAuthority("Kepala Departemen HR", "Staff Payroll")
                 .antMatchers("/gaji/viewall").hasAnyAuthority("Kepala Departemen HR", "Staff Payroll", "Karyawan")
                 .antMatchers("/gaji/ubah/**").hasAnyAuthority("Kepala Departemen HR", "Staff Payroll")
                 .antMatchers("/gaji/delete/**").hasAnyAuthority("Kepala Departemen HR", "Staff Payroll")
+                .antMatchers("/gaji/change/status/**").hasAnyAuthority("Kepala Departemen HR")
                 .antMatchers("/lembur/add").hasAnyAuthority("Karyawan")
                 .antMatchers("/lembur/change/**").hasAnyAuthority("Kepala Departemen HR", "Staff Payroll", "Karyawan")
                 .antMatchers("/lembur/change").hasAnyAuthority("Kepala Departemen HR", "Staff Payroll", "Karyawan")
@@ -36,10 +39,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").permitAll();
-
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").permitAll()
+                .and()
+                .cors()
+                .and()
+                .csrf()
+                .disable();
     }
-    
     @Bean
     public BCryptPasswordEncoder encoder() { return new BCryptPasswordEncoder(); }
 

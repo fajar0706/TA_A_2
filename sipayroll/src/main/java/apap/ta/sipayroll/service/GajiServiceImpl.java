@@ -53,7 +53,7 @@ public class GajiServiceImpl implements GajiService  {
     public GajiModel changeGaji(GajiModel gaji) {
         GajiModel targetGaji = gajiDb.findById(gaji.getId()).get();
         try {
-            targetGaji.setStatusPersetujuan(0);
+            targetGaji.setStatusPersetujuan(gaji.getGajiPokok());
             targetGaji.setGajiPokok(gaji.getGajiPokok());
             gajiDb.save(targetGaji);
             return targetGaji;
@@ -106,9 +106,10 @@ public class GajiServiceImpl implements GajiService  {
             int tempGaji=0;
             if(listgaji.get(i).getStatusPersetujuan() == 2){
                 tempGaji += listgaji.get(i).getGajiPokok();
-            }else{
+            }else if(listgaji.get(i).getStatusPersetujuan() == 1 || listgaji.get(i).getStatusPersetujuan() == 0){
                 tempGaji=0;
             }
+
             //Kompensasi
             int kompensasi = 0;
             if(listgaji.get(i).getStatusPersetujuan() == 2){
@@ -119,15 +120,20 @@ public class GajiServiceImpl implements GajiService  {
                     int tempJam = jamAkhir-jamMulai;
                     kompensasi += tempKompensasi*tempJam;
                 }
-            }else{
+            }else if(listgaji.get(i).getStatusPersetujuan() == 1 || listgaji.get(i).getStatusPersetujuan() == 0){
                 kompensasi = 0;
             }
             //Bonus
             int bonus = 0;
-            for (int j = 0; j < listgaji.get(i).getBonusList().size(); j++) {
-                int tempBonus = listgaji.get(i).getBonusList().get(j).getJumlahBonus();
-                bonus += tempBonus;
+            if(listgaji.get(i).getStatusPersetujuan()==2){
+                for (int j = 0; j < listgaji.get(i).getBonusList().size(); j++) {
+                    int tempBonus = listgaji.get(i).getBonusList().get(j).getJumlahBonus();
+                    bonus += tempBonus;
+                }
+            }else if (listgaji.get(i).getStatusPersetujuan() == 1 || listgaji.get(i).getStatusPersetujuan() == 0){
+                bonus = 0;
             }
+
             int total = tempGaji + kompensasi +bonus;
             jumlahTotalPendapatan.add(total);
         }
@@ -143,16 +149,11 @@ public class GajiServiceImpl implements GajiService  {
     public GajiModel changeStatus(GajiModel gaji) {
         GajiModel targetGaji = gajiDb.findById(gaji.getId()).get();
         try {
-            targetGaji.setStatusPersetujuan(gaji.getStatusPersetujuan());
-            gajiDb.save(targetGaji);
-            return targetGaji;
+                targetGaji.setStatusPersetujuan(gaji.getStatusPersetujuan());
+                gajiDb.save(targetGaji);
+                return targetGaji;
         } catch (NullPointerException nullException) {
             return null;
         }
     }
-
-//    @Override
-//    public GajiModel changeStatus(GajiModel gaji) {
-//        return null;
-//    }
 }
