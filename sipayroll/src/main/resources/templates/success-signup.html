@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Sign Up </title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+    <div class="text-center" style="margin-top: 30px">
+        <h4 class=" text-center" th:text="'User  '+${username} + ' berhasil ditambahkan.'"></h4>
+    </div>
+    <div class="text-center" style="margin-top: 30px">
+        <a style="display:inline;" th:href="@{/} ">Kembali</a>
+        <a style="display:inline; margin-left: 5px" th:href="@{/logout} ">Logout</a>
+    </div>
+</body>
+</html>

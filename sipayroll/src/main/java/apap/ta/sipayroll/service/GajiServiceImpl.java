@@ -1,6 +1,8 @@
 package apap.ta.sipayroll.service;
 
+import apap.ta.sipayroll.model.BonusModel;
 import apap.ta.sipayroll.model.GajiModel;
+import apap.ta.sipayroll.model.LemburModel;
 import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.repository.GajiDb;
 import apap.ta.sipayroll.repository.LemburDb;
@@ -51,7 +53,7 @@ public class GajiServiceImpl implements GajiService  {
     public GajiModel changeGaji(GajiModel gaji) {
         GajiModel targetGaji = gajiDb.findById(gaji.getId()).get();
         try {
-            targetGaji.setStatusPersetujuan(0);
+            targetGaji.setStatusPersetujuan(gaji.getGajiPokok());
             targetGaji.setGajiPokok(gaji.getGajiPokok());
             gajiDb.save(targetGaji);
             return targetGaji;
@@ -61,24 +63,82 @@ public class GajiServiceImpl implements GajiService  {
     }
 
    @Override
-   public List<Integer> totalPendapatan(){
-       List<GajiModel> listgaji = gajiDb.findAll();
-       List<Integer> jumlahTotalPendapatan = new ArrayList<Integer>();
+   public Integer totalPendapatan(GajiModel gaji){
 
-       for(GajiModel x: listgaji){
-           Integer tempGaji = x.getGajiPokok();
-           Integer tempKompensasi = x.getKompensasi().getKompensasiPerJam();
+       List<LemburModel> listLembur = gaji.getLemburList();
+       List<BonusModel> listBonus = gaji.getBonusList();
+       int jumlahTotalPendapatan = 0;
 
-           Integer jamMulai = x.getKompensasi().getWaktuMulai().getHours();
-           Integer jamAkhir = x.getKompensasi().getWaktuSelesai().getHours();
-           Integer tempJam = jamAkhir-jamMulai;
+       int gajiPokok = 0;
+       int kompensasi = 0;
+       int bonus = 0;
 
-           Integer kompensasi = tempKompensasi*tempJam;
-           Integer total = tempGaji + kompensasi;
-           jumlahTotalPendapatan.add(total);
+       if(gaji.getStatusPersetujuan() == 2){
+           gajiPokok += gaji.getGajiPokok();
+       }else{
+           return gajiPokok = 0;
        }
-       return jumlahTotalPendapatan;
+
+       for (int i = 0; i < listLembur.size() ; i++) {
+           if(listLembur.get(i).getStatusPersetujuan()==2){
+               int tempKompensasi = listLembur.get(i).getKompensasiPerJam();
+               int jamMulai = listLembur.get(i).getWaktuMulai().getHours();
+               int jamAkhir = listLembur.get(i).getWaktuSelesai().getHours();
+               int tempJam = jamAkhir - jamMulai;
+               kompensasi += tempKompensasi*tempJam;
+           }else {
+                return kompensasi = 0;
+           }
+       }
+       for (int i = 0; i < listBonus.size(); i++) {
+           bonus += listBonus.get(i).getJumlahBonus();
+       }
+       return gajiPokok+kompensasi+bonus;
    }
+
+    @Override
+    public List<Integer> totalPendapatan() {
+        List<GajiModel> listgaji = gajiDb.findAll();
+        List<Integer> jumlahTotalPendapatan = new ArrayList<Integer>();
+
+        for (int i = 0; i < listgaji.size() ; i++) {
+            //Gaji
+            int tempGaji=0;
+            if(listgaji.get(i).getStatusPersetujuan() == 2){
+                tempGaji += listgaji.get(i).getGajiPokok();
+            }else if(listgaji.get(i).getStatusPersetujuan() == 1 || listgaji.get(i).getStatusPersetujuan() == 0){
+                tempGaji=0;
+            }
+
+            //Kompensasi
+            int kompensasi = 0;
+            if(listgaji.get(i).getStatusPersetujuan() == 2){
+                for (int j = 0; j < listgaji.get(i).getLemburList().size(); j++) {
+                    int tempKompensasi = listgaji.get(i).getLemburList().get(j).getKompensasiPerJam();
+                    int jamMulai = listgaji.get(i).getLemburList().get(j).getWaktuMulai().getHours();
+                    int jamAkhir = listgaji.get(i).getLemburList().get(j).getWaktuSelesai().getHours();
+                    int tempJam = jamAkhir-jamMulai;
+                    kompensasi += tempKompensasi*tempJam;
+                }
+            }else if(listgaji.get(i).getStatusPersetujuan() == 1 || listgaji.get(i).getStatusPersetujuan() == 0){
+                kompensasi = 0;
+            }
+            //Bonus
+            int bonus = 0;
+            if(listgaji.get(i).getStatusPersetujuan()==2){
+                for (int j = 0; j < listgaji.get(i).getBonusList().size(); j++) {
+                    int tempBonus = listgaji.get(i).getBonusList().get(j).getJumlahBonus();
+                    bonus += tempBonus;
+                }
+            }else if (listgaji.get(i).getStatusPersetujuan() == 1 || listgaji.get(i).getStatusPersetujuan() == 0){
+                bonus = 0;
+            }
+
+            int total = tempGaji + kompensasi +bonus;
+            jumlahTotalPendapatan.add(total);
+        }
+        return jumlahTotalPendapatan;
+    }
 
     @Override
     public GajiModel getGajiModelByUser(UserModel userModel) {
@@ -89,16 +149,11 @@ public class GajiServiceImpl implements GajiService  {
     public GajiModel changeStatus(GajiModel gaji) {
         GajiModel targetGaji = gajiDb.findById(gaji.getId()).get();
         try {
-            targetGaji.setStatusPersetujuan(gaji.getStatusPersetujuan());
-            gajiDb.save(targetGaji);
-            return targetGaji;
+                targetGaji.setStatusPersetujuan(gaji.getStatusPersetujuan());
+                gajiDb.save(targetGaji);
+                return targetGaji;
         } catch (NullPointerException nullException) {
             return null;
         }
     }
-
-//    @Override
-//    public GajiModel changeStatus(GajiModel gaji) {
-//        return null;
-//    }
 }

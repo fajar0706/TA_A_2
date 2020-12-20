@@ -32,12 +32,14 @@
             </tr>
             </thead>
             <tbody>
-            <div th:each="gaji, iterationStatus : ${listGaji}">
+            <div th:each="gaji, iterStat : ${listGaji}" >
                 <td th:text="${gaji.user.username}"></td>
                 <td th:text="${gaji.gajiPokok}"></td>
-                <td th:text="${gaji.gajiPokok}"></td>
-                <!--                <td th:text="*{listTotalPendapatan[__${iterationStatus.index}__]}"></td>-->
-                <td><a class="btn btn-info" th:href="@{/gaji/}+${gaji.id}" >Lihat</a></td>
+                <td th:text="${listTotalPendapatan[iterStat.index]}"></td>
+               <!-- <div th:each="total : ${listTotalPendapatan}">
+                   <td th:text="${total}"></td>
+                </div> -->
+                <td><a class="btn btn-info" th:href="@{/gaji/}+${gaji.id}+'/'+${gaji.user.username}" >Lihat</a></td>
                 <td><a class="btn btn-warning" th:href="@{/gaji/ubah/}+${gaji.id}">Ubah</a></td>
 <<<<<<< HEAD
 =======
