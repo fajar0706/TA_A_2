@@ -29,13 +29,13 @@ public class RekruitmenController{
     @RequestMapping(value="/add-rekruitmen", method = RequestMethod.POST)
     private String addLowonganSubmit(String divisi, String posisi, String jumlah_karyawan, String jenis){
         MultiValueMap<String,String> data = new LinkedMultiValueMap<>();
-        UserModel user = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+//        UserModel user = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         data.add("divisi", divisi);
         data.add("posisi", posisi);
         data.add("jumlah", jumlah_karyawan);
-        data.add("jenisLowongan", jenis);
-        data.add("user",user.getUsername());
+        data.add("jenis", jenis);
+//       data.add("user",user.getUsername());
         System.out.println(data);
 
         if(divisi != null && posisi != null && jumlah_karyawan != null) {
