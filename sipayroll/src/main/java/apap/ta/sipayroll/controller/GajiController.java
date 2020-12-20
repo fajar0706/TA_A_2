@@ -76,7 +76,6 @@ public class GajiController {
             if(listGaji.get(i).getUser() == userTarget){
                 model.addAttribute("text",text);
                 return "add-gaji";
-
             }
         }
         gajiService.addGaji(gaji);
