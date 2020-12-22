@@ -7,8 +7,9 @@
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 <body>
-<nav th:replace="fragments/fragment :: navbar"></nav>
-
+<div th:replace="fragments/fragment :: navbar"></div>
+<div class="content-container">
+    <div class="container-fluid">
 <div class="card m-5 p-3">
     <h4 class="text-center" style="font-family: Poppins;font-weight: bold;">Add Lembur</h4>
     <form class="post-form; text-center" th:action="@{/lembur/add}"th:object="${lembur}" method="POST">
@@ -35,6 +36,8 @@
         <br><br>
         <button class="btn btn-success" type="submit">Submit</button>
     </form>
+</div>
+    </div>
 </div>
 </body>
 </html>

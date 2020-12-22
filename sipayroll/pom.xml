@@ -74,7 +74,10 @@
 			<artifactId>json</artifactId>
 			<version>20180130</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

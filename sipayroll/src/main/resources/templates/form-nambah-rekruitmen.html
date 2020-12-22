@@ -9,7 +9,9 @@
 </head>
 
 <body>
-<nav th:replace="fragments/fragment :: navbar"></nav>
+<div th:replace="fragments/fragment :: navbar"></div>
+<div class="content-container">
+    <div class="container-fluid">
 <div class="card shadow mb-5 bg-white rounded">
     <div class="card-header">Buat Lowongan</div>
     <div class="card-body">
@@ -47,6 +49,8 @@
                 <button class="btn btn-grad" type="submit">Buat</button>
             </div>
         </form>
+    </div>
+</div>
     </div>
 </div>
 </body>
