@@ -21,25 +21,20 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="card2 card border-0 px-4 py-5">
-                                <div class="row px-3 mb-4">
-                                    <div th:if="${param.error}">
-                                        <span class="text-center" style="color: red;"> Invalid username or password </span>
-                                    </div>
-                                    <!-- <div class="line"></div> <small class="or text-center">Or</small>
-                                    <div class="line"></div> -->
-                                </div>
                                 <form th:action="@{/user/addUser}" method="POST" class="form-group">
                                     <div class="row px-3"> 
                                         <label class="mb-1">
                                             <h6 class="mb-0 text-sm">Username</h6>
                                         </label> 
-                                        <input class="mb-4" type="text" name="username" placeholder="Enter a username"> </div>
+                                        <input type="text" name="username" placeholder="Enter a username"> </div>
+                                    <br>
                                 <div class="row px-3"> 
                                     <label class="mb-1">
                                         <h6 class="mb-0 text-sm">Password</h6>
                                     </label> 
                                     <input type="password" name="password" placeholder="Enter password"> </div>
-                                <div class="row px-3 mb-4">
+                                    <br>
+                                <div class="row px-3">
                                     <label class="mb-1">
                                         <h6 class="mb-0 text-sm">Role</h6>
                                     </label> 
@@ -47,8 +42,9 @@
                                         <option selected value=""  style="color: #BDBDBD" >Pilih Role</option>
                                         <option th:each="role : ${listRole}" th:value="${role.id}" th:text="${role.nama}"></option>
                                     </select>
-                                    <!-- <div class="custom-control custom-checkbox custom-control-inline"> <input id="chk1" type="checkbox" name="chk" class="custom-control-input"> <label for="chk1" class="custom-control-label text-sm">Remember me</label> </div> <a href="#" class="ml-auto mb-0 text-sm">Forgot Password?</a> -->
+                                   
                                 </div>
+                                <br>
                                 <div class="row mb-3 px-3"> <button type="submit" class="btn btn-blue text-center">Sign Up</button> </div>
                                 </form>
                             </div>

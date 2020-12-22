@@ -12,15 +12,17 @@
     transform: translate(-50%, -50%);
 }
 
-.home {
-    font-size: 3rem;
-}
+
 
 .table .thead-blue th {
     color: whitesmoke;
     background-color: cadetblue;
     border-color: cornsilk;
 }
+.grey-bg {  
+    background-color: #F5F7FA;
+}
+
 
 .text-form {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -39,4 +41,3 @@
 .text-navbar {
     font-weight: 700;
 }
-
