@@ -76,6 +76,7 @@ public class GajiController {
             if(listGaji.get(i).getUser() == userTarget){
                 model.addAttribute("text",text);
                 return "add-gaji";
+
             }
         }
         gajiService.addGaji(gaji);
@@ -89,7 +90,6 @@ public class GajiController {
     @RequestMapping("/gaji/viewall")
     public String listGaji(Model model){
         List<GajiModel> listGaji = gajiService.getGajiList();
-
         List<GajiModel> GajiModelList = new ArrayList<>();
         // List<Integer> totalPendapatanList = new HashMap<GajiModel,Integer>();
         List<Integer> listTotalPendapatan = gajiService.totalPendapatan();
@@ -197,6 +197,16 @@ public class GajiController {
             model.addAttribute("role",roleService);
             return "form-change-status-gaji";
         }
+        else if(gaji.getStatusPersetujuan()==1){
+            checkDisetujui = true;
+            notChange = "Status Persetujuan Sudah Ditolak Tidak Dapat Diubah";
+            model.addAttribute("notChange",notChange);
+            model.addAttribute("checkDisetujui", checkDisetujui);
+            model.addAttribute("gaji", gaji);
+            model.addAttribute("role",roleService);
+            return "form-change-status-gaji";
+
+        }
         else{
             model.addAttribute("gaji", gaji);
             model.addAttribute("role",roleService);
@@ -204,14 +214,7 @@ public class GajiController {
         }
 
     }
-//
-//    @GetMapping("/gaji/change/status/{idGaji}")
-//    public String changeStatusFormPage(@PathVariable Integer idGaji, Model model) {
-//        GajiModel gaji = gajiService.getGajiById(idGaji);
-//        model.addAttribute("gaji", gaji);
-//        return "form-change-status-gaji";
-//
-//    }
+
     @PostMapping("/gaji/change/status/{id}")
     public String changeStatusGajiSubmit(@PathVariable Integer id, @ModelAttribute GajiModel gaji, Model model){
         GajiModel  gajiPok = gajiService.getGajiById(id);

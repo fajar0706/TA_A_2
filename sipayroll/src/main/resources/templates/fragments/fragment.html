@@ -8,9 +8,11 @@
     <head th:fragment="css">
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
         <link rel="stylesheet" th:href="@{/css/sipayroll.css}">
+        <link rel="stylesheet" th:href="@{/css/sidebar.css}">
         <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
         <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    </head>
+        <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
 
     <!--    jquery,ajax, and bootstrap.js-->
 
@@ -23,84 +25,58 @@
 </head>
 
 <body>
-    <!-- <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
-        <a th:text="SIPAYROLL" class="navbar-brand font-weight-bold text-primary" href="#"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <ul class="navbar-nav mr-auto">
-                <a class="nav-item nav-link active text-secondary" th:href="@{/}">
-                Home <span class="sr-only"> (current)</span>
-            </a>
+    <div th:fragment="navbar">
+        <div class="sidebar-container fontsipayroll">
+            <div class="sidebar-logo">
+             SIPAYROLL
+            </div>
+            <ul class="sidebar-navigation fontsipayroll">
+    
+              </li>
+              <li class="header">Menu</li>
+              <li>
+                <a th:href="@{/}">
+                  <i class="fa fa-home" aria-hidden="true" ></i> Homepage
+                </a>
+              </li>
+              <li>
+                <a th:href="@{/gaji/viewall}">
+                  <i class="fas fa-wallet" aria-hidden="true"></i> Gaji
+                </a>
+              </li>
+              <li>
+                <a  th:href="@{/lembur/viewall}">
+                  <i class="fas fa-clock" aria-hidden="true" ></i> Lembur
+                </a>
+              </li>
+              <li>
+                <a th:href="@{/bonus/add}">
+                  <i class="fas fa-gift" aria-hidden="true"></i> Bonus
+                </a>
+              </li>
+              <li>
+                <a th:href="@{/}">
+                  <i class="fas fa-table" aria-hidden="true"></i> Lowongan
+                </a>
+              </li>
             </ul>
-            <ul class="navbar-nav">
-                <a th:text="${current}"></a>
-            </ul>
-            <ul class="navbar-nav pull-right">
-                <a class="nav-item nav-link active" th:href="@{/logout}">Logout</a>
-            </ul>
-        </div>
-        <div>
-            <a><span th:text="${page}"></span></a>
-        </div>
-    </nav> -->
-    <nav th:fragment="navbar" class="navbar navbar-expand-lg  navbar-light fontSipes " style="background-color:#329ec8; ">
-        <a class="navbar-brand " style="color: white;" id="logo" th:href="@{/}">SIPAYROLL</a>
-        <div class="collapse navbar-collapse text-navbar" style="color: white;" id="navbarNavDropdown">
-            <ul class="navbar-nav fontsipayroll">
-                <li class="nav-item">
-                    <a class="nav-link" th:classappend="${#request.requestURI == '/' ? 'text-white':''}" th:href="@{/}">Home</a>
-                </li>
-
-            </ul>
-            <ul class="navbar-nav">
-                <a th:text="${current}"></a>
-            </ul>
-            <ul class="navbar-nav fontsipayroll">
-                <li class="nav-item">
-                    <a class="nav-link" th:classappend="${#request.requestURI == '/gaji' ? 'text-white':''}" th:href="@{/gaji/viewall}">Gaji</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav  fontsipayroll">
-                <li class="nav-item">
-                    <a class="nav-link" th:classappend="${#request.requestURI == '/lembur' ? 'text-white':''}" th:href="@{/lembur/viewall}">Lembur</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav fontsipayroll">
-                <li class="nav-item">
-                    <a class="nav-link" th:classappend="${#request.requestURI == '/bonus' ? 'text-white':''}" th:href="@{/bonus/add}">Bonus</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav fontsipayroll">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/user/addUser}">Add User</a>
-                </li>
-            </ul>
-            <!-- <ul class="navbar-nav fontsipayroll mr-sm-2">
-                <a class="nav-item nav-link active" th:classappend="${#request.requestURI == '/' ? 'text-white':''}" th:href="@{/logout}">Logout</a>
-            </ul> -->
-            <ul class="navbar-nav fontsipayroll ml-auto">
-                <li class="nav-item dropdown fontsipayroll">
-                    <a class="nav-link dropdown-toggle fontsipayroll" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <!-- <h2 class="fontsipayroll fas fa-user" th:classappend="${#request.requestURI == '/' ? 'text-white':''}" th:text=" 'Hello '+ ${#httpServletRequest.remoteUser} + ' !'">Login as</h2> -->
-                        <i class="fas fa-user-alt text-white" style="display: inline;"></i>
-                        <p class="text-white" style="display:inline; font-family: 'Poppins';" th:text=" ' Hello, '+ ${#httpServletRequest.remoteUser} + ' !' "></p></a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-info " aria-labelledby="navbarDropdownMenuLink-4 ">
-                        <!-- <a class="dropdown-item " href="# ">My account</a> -->
-                        <a class="dropdown-item " th:href="@{/user/info} ">Profile</a>
-                        <a class="dropdown-item " th:href="@{/logout} ">Logout</a>
+          </div>
+                <nav class="navbar mt-0"> 
+                        <ul class="navbar-nav fontsipayroll ml-auto">
+                            <li class="nav-item dropdown fontsipayroll">
+                                <a class="nav-link dropdown-toggle fontsipayroll" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-user-alt" style="display: inline; font-size:15px;"></i>
+                                    <p  style="display:inline; font-size:15px;" th:text=" ' Hello, '+ ${#httpServletRequest.remoteUser} + ' !' "></p></a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-info " aria-labelledby="navbarDropdownMenuLink-4 ">
+                                    <a class="dropdown-item " style="font-size:15px;" th:href="@{/logout} ">Logout</a>
+                                </div>
+                            </li>
+            
+                        </ul>
                     </div>
-                </li>
-
-            </ul>
-
-
-        </div>
-    </nav>
-    <!--<footer th:fragment="footer(date) ">-->
-    <!--    <p th:text=" 'Made with Love by Azna '+ ${date} ">-->
-    <!--</footer>-->
+                </nav>
+    </div>
+    
 </body>
 
 </html>
