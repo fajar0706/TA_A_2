@@ -61,22 +61,19 @@
               </li>
             </ul>
           </div>
-                <nav class="navbar mt-0"> 
+                <nav class="navbar mt-0">
                         <ul class="navbar-nav fontsipayroll ml-auto">
                             <li class="nav-item dropdown fontsipayroll">
                                 <a class="nav-link dropdown-toggle fontsipayroll" id="navbarDropdownMenuLink-4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fas fa-user-alt" style="display: inline; font-size:15px;"></i>
                                     <p  style="display:inline; font-size:15px;" th:text=" ' Hello, '+ ${#httpServletRequest.remoteUser} + ' !' "></p></a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-info " aria-labelledby="navbarDropdownMenuLink-4 ">
+                                    <a class="dropdown-item " style="font-size:15px;" th:href="@{/user/info} ">Profile</a>
                                     <a class="dropdown-item " style="font-size:15px;" th:href="@{/logout} ">Logout</a>
                                 </div>
                             </li>
-            
                         </ul>
-                    </div>
                 </nav>
     </div>
-    
 </body>
-
 </html>
