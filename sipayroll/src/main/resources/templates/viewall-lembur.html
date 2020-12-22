@@ -7,47 +7,49 @@
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 <body>
-<nav th:replace="fragments/fragment :: navbar"></nav>
-
-<div class="container-fluid">
-    <br>
-    <div style="height: 50px;font-weight:bold;font-family: Poppins;padding-left: 500px;">
-        <h2>Daftar Lembur</h2>
-    </div>
-    <br>
-    <div>
-        <table class="table" style="border-radius:6px; -moz-border-radius:6px;">
-            <thead style="background-color: #0076fc;color:white;">
-            <tr>
-                <th>Nama Pegawai</th>
-                <th>Waktu Mulai</th>
-                <th>Waktu Selesai</th>
-                <th>Kompensasi</th>
-                <th>Status Persetujuan</th>
-                <th>Ubah</th>
-                <th>Hapus</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <div th:each="lembur, iterationStatus : ${listLembur}">
-                <td th:text="${lembur.gaji.user.username}"></td>
-                <td th:text="${lembur.waktuMulai}"></td>
-                <td th:text="${lembur.waktuSelesai}"></td>
-                <td th:text="${lembur.kompensasiPerJam}"></td>
-                <!-- <td th:text="${lembur.statusPersetujuan}"></td> -->
-                <td th:if="${lembur.statusPersetujuan == 0}">Menunggu Status Persetujuan</td>
-                <td th:if="${lembur.statusPersetujuan == 1}">Ditolak</td>
-                <td th:if="${lembur.statusPersetujuan == 2}">Disetujui</td>
-                <td><a class="btn btn-warning" th:href="@{/lembur/change/}+${lembur.id}">Ubah</a></td>
-                <td><a class="btn btn-danger" th:href="@{/lembur/delete/id/}+${lembur.id}">Hapus </a></td>
-                </tr>
+    <div th:replace="fragments/fragment :: navbar"></div>
+    <div class="content-container">
+        <div class="container-fluid">
+            <br>
+            <div style="height: 50px;font-weight:bold;font-family: Poppins;padding-left: 500px;">
+                <h2>Daftar Lembur</h2>
             </div>
-            </tbody>
-        </table>
-        <th><a class="btn btn-info btn-lg col-2 " th:href="@{/lembur/add}"> Tambah Lembur</a></th>
+            <br>
+            <div>
+                <table class="table ml-auto mr-auto" style="border-radius:6px; -moz-border-radius:6px;">
+                    <thead style="background-color: #356592;color:white;">
+                    <tr>
+                        <th>Nama Pegawai</th>
+                        <th>Waktu Mulai</th>
+                        <th>Waktu Selesai</th>
+                        <th>Kompensasi</th>
+                        <th>Status Persetujuan</th>
+                        <th>Ubah</th>
+                        <th>Hapus</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <div th:each="lembur, iterationStatus : ${listLembur}">
+                        <td th:text="${lembur.gaji.user.username}"></td>
+                        <td th:text="${lembur.waktuMulai}"></td>
+                        <td th:text="${lembur.waktuSelesai}"></td>
+                        <td th:text="${lembur.kompensasiPerJam}"></td>
+                        <!-- <td th:text="${lembur.statusPersetujuan}"></td> -->
+                        <td th:if="${lembur.statusPersetujuan == 0}">Menunggu Status Persetujuan</td>
+                        <td th:if="${lembur.statusPersetujuan == 1}">Ditolak</td>
+                        <td th:if="${lembur.statusPersetujuan == 2}">Disetujui</td>
+                        <td><a class="btn btn-warning" th:href="@{/lembur/change/}+${lembur.id}">Ubah</a></td>
+                        <td><a class="btn btn-danger" th:href="@{/lembur/delete/id/}+${lembur.id}">Hapus </a></td>
+                        </tr>
+                    </div>
+                    </tbody>
+                </table>
+                <th><a class="btn btn-info btn-lg col-2 " th:href="@{/lembur/add}"> Tambah Lembur</a></th>
+            </div>
+        </div>
     </div>
-</div>
-<a class="btn btn-primary ml-3" href ="/">Home</a>
+        
+=
 </body>
 </html>

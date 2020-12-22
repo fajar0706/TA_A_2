@@ -9,7 +9,7 @@
 <body>
 <div th:replace="fragments/fragment :: navbar"></div>
 <div class="content-container">
-    <div class="grey-bg container-fluid">
+    <div class="container-fluid">
         <div class="card m-5 p-3">
             <h4 class="text-center" style="font-family: Poppins;font-weight: bold;">Tambah Gaji</h4>
             <form th:action="@{/gaji/add}" th:object="${gaji}" method="POST">
@@ -34,7 +34,13 @@
                         <input type="date" class="form-control" id="tanggalMasuk" th:field="${gaji.tanggalMasuk}" >
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <div class="form-group row">
+                    <div class="col-sm-2 col-form-label" style="font-weight: bold"></div>
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </div>
+                
             </form>
         </div>
     </div>

@@ -40,11 +40,12 @@
                     <option value="1" >Ditolak</option>
                     <option value="2" >Disetujui</option>
                 </select>
+                <button class="btn btn-success" type="submit">Submit</button>
             </div>
             
             <input class="form-control" type="hidden" th:field="*{kompensasiPerJam}" disabled/>
             <br><br>
-            <button class="btn btn-success" type="submit">Submit</button>
+            
         </form>
     </div>
     <!-- <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Staff Payroll')}">
