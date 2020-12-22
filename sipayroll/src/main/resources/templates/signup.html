@@ -9,6 +9,7 @@
 </head>
 
 <body>
+
             <div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto fontsipayroll">
                 <div class="card card0 border-0">
                     <a class="navbar-brand text-center logo" style="color: #356592;" th:href="@{/}">SIPAYROLL</a> 
@@ -22,18 +23,51 @@
                         <div class="col-lg-6">
                             <div class="card2 card border-0 px-4 py-5">
                                 <form th:action="@{/user/addUser}" method="POST" class="form-group">
+                                    <div class="row px-3" th:if="${alert != null}">
+                                        <p class="alert alert-info" role="alert">Username sudah ada!</p>
+                                    </div>
+                                    <div class="row px-3"> 
+                                        <label class="mb-1">
+                                            <h6 class="mb-0 text-sm">Name</h6>
+                                        </label> 
+                                        <input type="text" name="nama" placeholder="Name"> </div>
+                                    <br>
                                     <div class="row px-3"> 
                                         <label class="mb-1">
                                             <h6 class="mb-0 text-sm">Username</h6>
                                         </label> 
-                                        <input type="text" name="username" placeholder="Enter a username"> </div>
+                                        <input type="text" name="username" placeholder="Masukkan username"> </div>
                                     <br>
                                 <div class="row px-3"> 
                                     <label class="mb-1">
                                         <h6 class="mb-0 text-sm">Password</h6>
                                     </label> 
-                                    <input type="password" name="password" placeholder="Enter password"> </div>
+                                    <input type="password" name="password" placeholder="Masukkan password"> </div>
                                     <br>
+                                <div class="row px-3"> 
+                                    <label class="mb-1">
+                                        <h6 class="mb-0 text-sm">No Telepon</h6>
+                                    </label> 
+                                    <input type="number" name="noTelepon" placeholder="No Telepon"> </div>
+                                    <br>
+                                    <div class="row px-3"> 
+                                        <label class="mb-1">
+                                            <h6 class="mb-0 text-sm">Tempat Lahir</h6>
+                                        </label> 
+                                        <input type="text" name="tempatLahir"  placeholder="Tempat Lahir"> </div>
+                                        <br>
+                                <div class="row px-3"> 
+                                        <label class="mb-1">
+                                            <h6 class="mb-0 text-sm">Tanggal Lahir</h6>
+                                        </label> 
+                                        <input type="date" name="tanggalLahir" placeholder="Tanggal Lahir"> </div>
+                                        <br>
+                                <div class="row px-3"> 
+                                        <label class="mb-1">
+                                            <h6 class="mb-0 text-sm">Alamat</h6>
+                                        </label> 
+                                        <input type="text" name="alamat" placeholder="Alamat"> </div>
+                                        <br>
                                 <div class="row px-3">
                                     <label class="mb-1">
                                         <h6 class="mb-0 text-sm">Role</h6>
@@ -42,7 +76,6 @@
                                         <option selected value=""  style="color: #BDBDBD" >Pilih Role</option>
                                         <option th:each="role : ${listRole}" th:value="${role.id}" th:text="${role.nama}"></option>
                                     </select>
-                                   
                                 </div>
                                 <br>
                                 <div class="row mb-3 px-3"> <button type="submit" class="btn btn-blue text-center">Sign Up</button> </div>
@@ -50,11 +83,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="bg-blue py-4">
-                        <div class="row px-3"> <small class="ml-4 ml-sm-5 mb-2">Copyright &copy; 2019. All rights reserved.</small>
-                            <div class="social-contact ml-4 ml-sm-auto"> <span class="fa fa-facebook mr-4 text-sm"></span> <span class="fa fa-google-plus mr-4 text-sm"></span> <span class="fa fa-linkedin mr-4 text-sm"></span> <span class="fa fa-twitter mr-4 mr-sm-5 text-sm"></span> </div>
-                        </div>
-                    </div> -->
+                    
                 </div>
             </div>
            

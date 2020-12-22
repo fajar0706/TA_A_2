@@ -202,10 +202,17 @@ public class GajiController {
             model.addAttribute("role",roleService);
             return "form-change-status-gaji";
         }
-        
-    }
 
-    @PostMapping("/gaji/change/status{id}")
+    }
+//
+//    @GetMapping("/gaji/change/status/{idGaji}")
+//    public String changeStatusFormPage(@PathVariable Integer idGaji, Model model) {
+//        GajiModel gaji = gajiService.getGajiById(idGaji);
+//        model.addAttribute("gaji", gaji);
+//        return "form-change-status-gaji";
+//
+//    }
+    @PostMapping("/gaji/change/status/{id}")
     public String changeStatusGajiSubmit(@PathVariable Integer id, @ModelAttribute GajiModel gaji, Model model){
         GajiModel  gajiPok = gajiService.getGajiById(id);
         UserModel userAktif = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -215,6 +222,5 @@ public class GajiController {
         String alert = "Status Gaji Pokok " + gaji.getUser().getUsername() + " berhasil diubah";
         model.addAttribute("alert", alert);
         return "change-status-gaji";
-
     }
 }
