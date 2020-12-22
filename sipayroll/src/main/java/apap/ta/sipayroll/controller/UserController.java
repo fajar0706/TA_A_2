@@ -3,7 +3,6 @@ package apap.ta.sipayroll.controller;
 import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.rest.UserDetail;
 import apap.ta.sipayroll.service.RoleService;
-import apap.ta.sipayroll.service.UserRestService;
 import apap.ta.sipayroll.service.UserService;
 import apap.ta.sipayroll.service.UserRestService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,45 +7,51 @@
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 <body>
-
-<nav th:replace="fragments/fragment :: navbar"></nav>
-
-<div class="card m-5 p-3">
-    <h4 class="text-center" style="font-family: Poppins;font-weight: bold;">Update Gaji</h4>
-    <form th:action="@{/gaji/change/status/{id}(id=${gaji.id})}"th:object="${gaji}" method="POST">
-        <input type="hidden" th:field="${gaji.id}"/>
-        <input type="hidden" id="uuid_user" th:field="${gaji.user}"/>
-        <input type="hidden"  id="gajiPokok" th:field="${gaji.gajiPokok}" />
-        <input type="hidden"  id="tanggalMasuk" th:field="${gaji.tanggalMasuk}"/>
-        <select class="form-control form-control-lg" th:field="${gaji.statusPersetujuan}">
-            <option value="0" >Menunggu Status Persetujuan</option>
-            <option value="1" >Ditolak</option>
-            <option value="2" selected >Disetujui</option>
-        </select>
-           
-        <!-- <div class="form-group row">
-            <label type="hidden" for="uuid_user" class="col-sm-2 col-form-label" style="font-weight: bold">UUID User</label>
-            <div class="col-sm-10">
-                <select class="form-control form-control-lg" id="uuid_user" th:field="${gaji.user}" disabled>
-                    <option th:value="${gaji.user.id}" th:text="${gaji.user.username}"></option>
-                </select>
-            </div>
-        </div> -->
-        <!-- <div class="form-group row">
-            <label for="gajiPokok" class="col-sm-2 col-form-label" style="font-weight: bold">Gaji Pokok</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="gajiPokok" th:field="${gaji.gajiPokok}" placeholder="Masukkan Gaji Pokok (e.g : 50000)">
+    <div th:replace="fragments/fragment :: navbar"></div>
+    <div class="content-container">
+        <div class="container-fluid">
+            <div class="card m-5 p-3">
+                <h4 class="text-center" style="font-family: Poppins;font-weight: bold;">Change Status Gaji</h4>
+                <form th:action="@{/gaji/change/status/{id}(id=${gaji.id})}"th:object="${gaji}" method="POST">
+                    <input type="hidden" th:field="${gaji.id}"/>
+                    <input type="hidden" id="uuid_user" th:field="${gaji.user}"/>
+                    <input type="hidden"  id="gajiPokok" th:field="${gaji.gajiPokok}" />
+                    <input type="hidden"  id="tanggalMasuk" th:field="${gaji.tanggalMasuk}"/>
+                    <div th:if="${checkDisetujui}">
+                        <p th:text="${notChange}" class="alert alert-info" role="alert"></p>
+                        <div th:if="${statusPersetujuan == '2'}">
+                            <select class="form-control form-control-lg" th:field="*{statusPersetujuan}" disabled>
+                                <option value="0" >Menunggu Status Persetujuan</option>
+                                <option value="1" >Ditolak</option>
+                                <option value="2" selected >Disetujui</option>
+                            </select>
+                        </div>
+                        <div th:if="${statusPersetujuan == '1'}">
+                            <select class="form-control form-control-lg" th:field="*{statusPersetujuan}" disabled>
+                                <option value="0" >Menunggu Status Persetujuan</option>
+                                <option value="1" selected >Ditolak</option>
+                                <option value="2"  >Disetujui</option>
+                            </select>
+                        </div>
+                        <br>
+                        <a class="btn btn-info" th:href="@{/gaji/viewall}">Kembali</a>
+                    </div>
+                    <div th:unless="${checkDisetujui}">
+                        <select class="form-control form-control-lg" th:field="*{statusPersetujuan}">
+                            <option value="0" >Menunggu Status Persetujuan</option>
+                            <option value="1" >Ditolak</option>
+                            <option value="2" >Disetujui</option>
+                        </select>
+                        <br>
+                        <button class="btn btn-success" type="submit">Submit</button>
+                    </div>
+                    </div>
+                </form>
             </div>
         </div>
-        <div class="form-group row">
-            <label for="tanggalMasuk" class="col-sm-2 col-form-label" style="font-weight: bold">Tanggal Masuk</label>
-            <div class="col-sm-10">
-                <input type="date" class="form-control" id="tanggalMasuk" th:field="${gaji.tanggalMasuk}" disabled>
-            </div>
-        </div> -->
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        <button type="button" class="btn btn-outline-primary">Batal</button>
-    </form>
-</div>
+    </div>
+        
+
+
 </body>
 </html>
