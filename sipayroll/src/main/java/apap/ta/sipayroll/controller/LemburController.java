@@ -91,12 +91,10 @@ public class LemburController {
     @PostMapping("/lembur/change")
     public String changeLemburSubmit(@ModelAttribute LemburModel lembur, Model model) {
         
-        boolean checkDisetujui;
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String start = dateFormat.format(lembur.getWaktuMulai());
         String finish = dateFormat.format(lembur.getWaktuSelesai());
         String notMatch;
-        String notChange;
             if (!start.equals(finish)){
                 notMatch = "Waktu lembur harus dalam tanggal yang sama!";
                 model.addAttribute("notMatch", notMatch);
