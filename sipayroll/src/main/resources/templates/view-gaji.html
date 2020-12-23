@@ -9,7 +9,9 @@
 
 
 <body>
-<nav th:replace="fragments/fragment :: navbar"></nav>
+<div th:replace="fragments/fragment :: navbar"></div>
+<div class="content-container">
+    <div class="container-fluid">
 <div class="d-flex flex-column justify-content-center align-items-center">
     <h2 class="font-weight-bold mt-5">Detail Gaji</h2>
     <div class=" border bg-light mt-2 mb-1" style="border-radius:30px;padding:0.5rem 6rem 0rem 6rem">
@@ -64,6 +66,8 @@
             </tr>
             </tbody>
         </table>
+    </div>
+</div>
     </div>
 </div>
 

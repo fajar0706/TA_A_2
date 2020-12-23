@@ -9,8 +9,10 @@
 </head>
 
 <body>
-<nav th:replace="fragments/fragment :: navbar"></nav>
-<div class="card shadow mb-5 bg-white rounded">
+<div th:replace="fragments/fragment :: navbar"></div>
+<div class="content-container">
+    <div class="container-fluid">
+<div class="card shadow mb-5 bg-white rounded fontsipayroll">
     <div class="card-header">Buat Lowongan</div>
     <div class="card-body">
         <form th:action="@{/add-rekruitmen}" method="POST">
@@ -43,10 +45,13 @@
                 </select>
             </div>
             <div class="container" id="buttons">
-                <a th:href="@{/lowongan}" class="btn">Batal</a>
-                <button class="btn btn-grad" type="submit">Buat</button>
+                <button class="btn btn-primary" type="submit">Buat</button>
+                <a th:href="@{/lowongan}" class="btn btn-primary ">Batal</a>
+                
             </div>
         </form>
+    </div>
+</div>
     </div>
 </div>
 </body>

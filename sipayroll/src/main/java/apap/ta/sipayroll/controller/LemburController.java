@@ -69,17 +69,27 @@ public class LemburController {
     @GetMapping("/lembur/change/{idLembur}")
     public String changeLemburFormPage(@PathVariable Long idLembur, Model model) {
         LemburModel lembur = lemburService.getLemburByIdLembur(idLembur);
-        boolean checkDisetujui;
+        boolean checkDisetujuiDitolak;
         String notChange;
         if(lembur.getStatusPersetujuan()==2){
-            checkDisetujui = true;
+            checkDisetujuiDitolak = true;
             notChange = "Status Persetujuan Sudah Disetujui Tidak Dapat Diubah";
             model.addAttribute("notChange",notChange);
-            model.addAttribute("checkDisetujui", checkDisetujui);
+            model.addAttribute("checkDisetujuiDitolak", checkDisetujuiDitolak);
             model.addAttribute("lembur", lembur);
             model.addAttribute("role",roleService);
             return "form-change-lembur";
         }
+        else if(lembur.getStatusPersetujuan()==1){
+            checkDisetujuiDitolak = true;
+            notChange = "Status Persetujuan Sudah Ditolak Tidak Dapat Diubah";
+            model.addAttribute("notChange",notChange);
+            model.addAttribute("checkDisetujuiDitolak", checkDisetujuiDitolak);
+            model.addAttribute("lembur", lembur);
+            model.addAttribute("role",roleService);
+            return "form-change-lembur";
+        }
+        
         else{
             model.addAttribute("lembur", lembur);
             model.addAttribute("role",roleService);

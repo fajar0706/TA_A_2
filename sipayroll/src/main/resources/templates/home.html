@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title> Home </title>
-    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
@@ -101,7 +100,7 @@
                                       <div class="media d-flex">
                                         <div class="media-body text-left">
                                           <h3 class="danger fontsipayroll">Lowongan</h3>
-                                          <a th:href="@{/}">Lihat Daftar Lowongan</a>
+                                          <a th:href="@{/addLowongan}">Tambah Lowongan</a>
                                         </div>
                                         <div class="align-self-center">
                                           <i class="fas fa-table danger font-large-2 float-right"></i>
@@ -112,18 +111,11 @@
                                 </div>
                               </div>
                         </th>
-    
                         <th>
                             <div class="col-3 "></div>
                         </th>
                     </thead>
-    
                 </div>
-                    
-                    
-            
-              
-          
                   </div>
         </div>
             </div>

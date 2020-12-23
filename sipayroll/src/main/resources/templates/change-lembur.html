@@ -2,16 +2,18 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> Add Lembur </title>
+    <title> Change Lembur </title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 
 </head>
 <body>
-    <nav th:replace="fragments/fragment :: navbar"></nav>
+<div th:replace="fragments/fragment :: navbar"></div>
+<div class="content-container">
     <div class="container-fluid">
         <h4 class="text-center" style="font-family: Poppins;font-weight: bold;" th:text="'Lembur dengan ID ' + ${lemburUpdated.id} + ' Berhasil Diubah.'"></h4>
         <a class="btn btn-primary" th:href ="@{/lembur/viewall}">Kembali</a>
     </div>
+</div>
 </body>
 </html>
