@@ -186,22 +186,22 @@ public class GajiController {
     @GetMapping("/gaji/change/status/{idGaji}")
     public String changeStatusFormPage(@PathVariable Integer idGaji, Model model) {
         GajiModel gaji = gajiService.getGajiById(idGaji);
-        boolean checkDisetujui;
+        boolean checkDisetujuiDitolak;
         String notChange;
         if(gaji.getStatusPersetujuan()==2){
-            checkDisetujui = true;
+            checkDisetujuiDitolak = true;
             notChange = "Status Persetujuan Sudah Disetujui Tidak Dapat Diubah";
             model.addAttribute("notChange",notChange);
-            model.addAttribute("checkDisetujui", checkDisetujui);
+            model.addAttribute("checkDisetujuiDitolak", checkDisetujuiDitolak);
             model.addAttribute("gaji", gaji);
             model.addAttribute("role",roleService);
             return "form-change-status-gaji";
         }
         else if(gaji.getStatusPersetujuan()==1){
-            checkDisetujui = true;
+            checkDisetujuiDitolak = true;
             notChange = "Status Persetujuan Sudah Ditolak Tidak Dapat Diubah";
             model.addAttribute("notChange",notChange);
-            model.addAttribute("checkDisetujui", checkDisetujui);
+            model.addAttribute("checkDisetujuiDitolak", checkDisetujuiDitolak);
             model.addAttribute("gaji", gaji);
             model.addAttribute("role",roleService);
             return "form-change-status-gaji";
