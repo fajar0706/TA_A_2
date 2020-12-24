@@ -17,42 +17,61 @@
         <div>
             <table class="table ml-auto mr-auto" style="border-radius:6px; -moz-border-radius:6px;">
                 <thead style="background-color: #356592;color:white;">
+                <div th:if="${check} == true">
                 <tr>
                     <th> Nama Pegawai </th>
                     <th> Gaji </th>
                     <th> Total Pendapatan </th>
                     <th> Lihat </th>
-                    <th> Ubah Data </th>
+                    <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Kepala Departemen HR') OR #strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Staff Payroll')}">
+                        <th> Ubah Data Gaji</th>
+                    </div>
+
                     <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Kepala Departemen HR')}">
                         <th>Ubah Status Persetujuan</th>
                     </div>
-                    <th> Hapus </th>
+                    <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Kepala Departemen HR') OR #strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Staff Payroll')}">
+                        <th> Hapus </th>
+                    </div>
+
                     <th></th>
-
-
                 </tr>
+                </div>
                 </thead>
                 <tbody>
+                <div th:if="${check} == true">
                 <div th:each="gaji, iterStat : ${listGaji}" >
                     <td th:text="${gaji.user.username}"></td>
                     <td th:text="${gaji.gajiPokok}"></td>
+
                     <td th:text="${listTotalPendapatan[iterStat.index]}"></td>
-                   <!-- <div th:each="total : ${listTotalPendapatan}">
-                       <td th:text="${total}"></td>
-                    </div> -->
                     <td><a class="btn btn-info" th:href="@{/gaji/}+${gaji.id}+'/'+${gaji.user.username}" >Lihat</a></td>
-                    <td><a class="btn btn-warning" th:href="@{/gaji/ubah/}+${gaji.id}">Ubah</a></td>
+                    <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Kepala Departemen HR') OR #strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Staff Payroll')}">
+                        <td><a class="btn btn-warning" th:href="@{/gaji/ubah/}+${gaji.id}">Ubah</a></td>
+                    </div>
+
                     <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Kepala Departemen HR')}">
                         <td><a class="btn btn-warning" th:href="@{/gaji/change/status/}+${gaji.id}">Ubah Status</a></td>
                     </div>
-                    <td><a class="btn btn-danger" th:href="@{/gaji/delete/id/}+${gaji.id}">Hapus </a></td>
-    
-    
+                    <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Kepala Departemen HR') OR #strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Staff Payroll')}">
+                        <td><a class="btn btn-danger" th:href="@{/gaji/delete/id/}+${gaji.id}">Hapus </a></td>
+                    </div>
+
                     </tr>
+                </div>
+                </div>
+                <div th:if="${check} == false">
+                    <br>
+                    <br>
+                    <br>
+                    <hr>
+                    <h2 th:text="${text}" style="text-align: center"></h2>
                 </div>
                 </tbody>
             </table>
-            <th><a class="btn btn-info btn-lg col-2 " th:href="@{/gaji/add}"> Tambah Gaji</a></th>
+            <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Kepala Departemen HR') OR #strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Staff Payroll')}">
+                <th><a class="btn btn-outline-info btn-lg col-2 " th:href="@{/gaji/add}"> Tambah Gaji</a></th>
+            </div>
         </div>
     </div>
 </div>
