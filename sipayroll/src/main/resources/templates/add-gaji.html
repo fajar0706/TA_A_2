@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title> Add Gaji </title>
+    <title> Tambah Gaji </title>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 
 </head>
 <body>
 <div th:replace="fragments/fragment :: navbar"></div>
-<div class="content-container">
+<div class="content-container fontsipayroll">
     <div class="container-fluid">
         <div class="mt-5 card-body con text-center fontsipayroll">
             <h2>Tambah Gaji Pegawai</h2>
@@ -21,7 +21,7 @@
                                 <br>
                                 <p class="card-text" th:text="${text}"></p>
                                 <br>
-                                <a th:href="@{'/gaji/viewall'}" class="btn btn-form" style="width:25%">Lihat Daftar Gaji</a>
+                                <a th:href="@{/gaji/viewall}" class="btn btn-outline-info" style="width:25%">Lihat Daftar Gaji</a>
                             </div>
                         </div>
                     </div>

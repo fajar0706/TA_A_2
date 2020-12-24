@@ -12,7 +12,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LemburDb extends JpaRepository<LemburModel, Long> {
-    // Optional<LemburModel> findById(Long idLembur);
-    // LemburModel findLemburModelByUser(UserModel userModel);
     List<LemburModel> findByGaji(GajiModel gaji);
 }
