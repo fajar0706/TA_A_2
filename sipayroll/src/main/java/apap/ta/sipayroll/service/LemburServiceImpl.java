@@ -74,4 +74,10 @@ public class LemburServiceImpl implements LemburService {
         }
         return total;
     }
+
+    @Override
+    public List<LemburModel> getListLemburByGaji(GajiModel gajiModel) {
+        return lemburDb.findByGaji(gajiModel);
+    }
+
 }

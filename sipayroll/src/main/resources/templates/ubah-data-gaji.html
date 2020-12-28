@@ -9,7 +9,7 @@
 </head>
 <body>
 <div th:replace="fragments/fragment :: navbar"></div>
-<div class="content-container">
+<div class="content-container fontsipayroll">
     <div class="container-fluid">
 <div class="mt-5 card-body con text-center">
     <h2>Ubah Gaji Pegawai</h2>
@@ -21,7 +21,7 @@
                         <br>
                         <p class="card-text" th:text="${text}"></p>
                         <br>
-                        <a th:href="@{'/'}" class="btn btn-form" style="width:25%">Lihat Daftar Gaji</a>
+                        <a th:href="@{/gaji/viewall}" class="btn btn-outline-info" style="width:25%">Lihat Daftar Gaji</a>
                     </div>
                 </div>
             </div>

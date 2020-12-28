@@ -8,7 +8,7 @@
 </head>
 <body>
 <div th:replace="fragments/fragment :: navbar"></div>
-<div class="content-container">
+<div class="content-container fontsipayroll">
     <div class="container-fluid">
 <div class="card m-5 p-3">
     <h4 class="text-center" style="font-family: Poppins;font-weight: bold;">Update Gaji</h4>
@@ -34,8 +34,8 @@
                 <input type="date" class="form-control" id="tanggalMasuk" th:field="${gaji.tanggalMasuk}" disabled>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary">Simpan</button>
-        <button type="button" class="btn btn-outline-primary">Batal</button>
+        <button type="submit" class="btn btn-outline-info">Simpan</button>
+        <a class="btn btn-outline-info" th:href="@{/gaji/viewall}">Kembali</a>
     </form>
 </div>
     </div>

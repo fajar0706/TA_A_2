@@ -59,7 +59,7 @@ public class LemburController {
                 model.addAttribute("id", lembur.getId());
                 return "add-lembur";}
             else{
-                notMatch = "Belum ada gaji!";
+                notMatch = "User ini belum ada gaji!";
                 model.addAttribute("notMatch", notMatch);
                 model.addAttribute("lembur", new LemburModel());
                 return "form-add-lembur";
@@ -69,17 +69,27 @@ public class LemburController {
     @GetMapping("/lembur/change/{idLembur}")
     public String changeLemburFormPage(@PathVariable Long idLembur, Model model) {
         LemburModel lembur = lemburService.getLemburByIdLembur(idLembur);
-        boolean checkDisetujui;
+        boolean checkDisetujuiDitolak;
         String notChange;
         if(lembur.getStatusPersetujuan()==2){
-            checkDisetujui = true;
+            checkDisetujuiDitolak = true;
             notChange = "Status Persetujuan Sudah Disetujui Tidak Dapat Diubah";
             model.addAttribute("notChange",notChange);
-            model.addAttribute("checkDisetujui", checkDisetujui);
+            model.addAttribute("checkDisetujuiDitolak", checkDisetujuiDitolak);
             model.addAttribute("lembur", lembur);
             model.addAttribute("role",roleService);
             return "form-change-lembur";
         }
+        else if(lembur.getStatusPersetujuan()==1){
+            checkDisetujuiDitolak = true;
+            notChange = "Status Persetujuan Sudah Ditolak Tidak Dapat Diubah";
+            model.addAttribute("notChange",notChange);
+            model.addAttribute("checkDisetujuiDitolak", checkDisetujuiDitolak);
+            model.addAttribute("lembur", lembur);
+            model.addAttribute("role",roleService);
+            return "form-change-lembur";
+        }
+        
         else{
             model.addAttribute("lembur", lembur);
             model.addAttribute("role",roleService);
@@ -114,7 +124,35 @@ public class LemburController {
     @RequestMapping("/lembur/viewall")
     public String listLembur(Model model) {
         List<LemburModel> listLembur = lemburService.getLemburList();
+        UserModel user = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        GajiModel gajiModel = gajiService.getGajiModelByUser(user);
+        List<LemburModel> lemburModel = lemburService.getListLemburByGaji(gajiModel);
+        String role = user.getRole().getNama();
+        String userName = user.getUsername();
+
+        Boolean cek = true;
+        for (int i = 0; i < listLembur.size() ; i++) {
+            if(role.equals("Karyawan") && (listLembur.get(i).getGaji().getUser().getUsername().equals(userName)) && lemburModel.size() != 0){
+                cek = true;
+                model.addAttribute("check",cek);
+                model.addAttribute("listLembur", lemburModel);
+                model.addAttribute("role",roleService);
+                return "viewall-lembur";
+            }else if(role.equals("Karyawan") && lemburModel.size() == 0){
+                cek = false;
+                String text = "User ini belum memiliki lembur";
+                model.addAttribute("check",cek);
+                model.addAttribute("text",text);
+                model.addAttribute("listLembur", lemburModel);
+                model.addAttribute("role",roleService);
+
+                return "viewall-lembur";
+            }
+        }
+        cek = true;
+        model.addAttribute("check",cek);
         model.addAttribute("listLembur", listLembur);
+        model.addAttribute("role",roleService);
         return "viewall-lembur";
     }
 

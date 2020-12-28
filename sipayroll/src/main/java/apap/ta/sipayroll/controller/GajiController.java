@@ -1,6 +1,7 @@
 package apap.ta.sipayroll.controller;
 
 import apap.ta.sipayroll.model.GajiModel;
+import apap.ta.sipayroll.model.RoleModel;
 import apap.ta.sipayroll.model.UserModel;
 import apap.ta.sipayroll.service.GajiService;
 import apap.ta.sipayroll.service.LemburService;
@@ -91,12 +92,41 @@ public class GajiController {
     public String listGaji(Model model){
         List<GajiModel> listGaji = gajiService.getGajiList();
         List<GajiModel> GajiModelList = new ArrayList<>();
-        // List<Integer> totalPendapatanList = new HashMap<GajiModel,Integer>();
+        UserModel user = userService.getUserModelByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        GajiModel gajiModel = gajiService.getGajiModelByUser(user);
+
         List<Integer> listTotalPendapatan = gajiService.totalPendapatan();
+        String role = user.getRole().getNama();
+        String userName = user.getUsername();
+        Boolean check = true;
+        for (int i = 0; i < listGaji.size() ; i++) {
+            if(role.equals("Karyawan") && (listGaji.get(i).getUser().getUsername().equals(userName)) && gajiModel !=null){
+                check = true;
+                model.addAttribute("check",check);
+                model.addAttribute("listTotalPendapatan",listTotalPendapatan);
+                model.addAttribute( "listGaji",listGaji.get(i));
+                model.addAttribute("role",roleService);
+                return "viewall-gaji";
+            }else if(gajiModel == null && role.equals("Karyawan")){
+                check = false;
+                String text = "User ini belum memiliki gaji";
+                model.addAttribute("check",check);
+                model.addAttribute("listTotalPendapatan",listTotalPendapatan);
+                model.addAttribute( "listGaji",listGaji);
+                model.addAttribute("text",text);
+                model.addAttribute("role",roleService);
+                return "viewall-gaji";
+            }
+        }
+        check = true;
+        model.addAttribute("check",check);
         model.addAttribute("listTotalPendapatan",listTotalPendapatan);
         model.addAttribute( "listGaji",listGaji);
-		model.addAttribute("role",roleService);
+        model.addAttribute("role",roleService);
         return "viewall-gaji";
+//        String text = "User belum ada gaji";
+//        model.addAttribute("text",text);
+//        return "viewall-gaji";
     }
 
     @GetMapping("/gaji/{id}/{username}")
@@ -186,22 +216,22 @@ public class GajiController {
     @GetMapping("/gaji/change/status/{idGaji}")
     public String changeStatusFormPage(@PathVariable Integer idGaji, Model model) {
         GajiModel gaji = gajiService.getGajiById(idGaji);
-        boolean checkDisetujui;
+        boolean checkDisetujuiDitolak;
         String notChange;
         if(gaji.getStatusPersetujuan()==2){
-            checkDisetujui = true;
+            checkDisetujuiDitolak = true;
             notChange = "Status Persetujuan Sudah Disetujui Tidak Dapat Diubah";
             model.addAttribute("notChange",notChange);
-            model.addAttribute("checkDisetujui", checkDisetujui);
+            model.addAttribute("checkDisetujuiDitolak", checkDisetujuiDitolak);
             model.addAttribute("gaji", gaji);
             model.addAttribute("role",roleService);
             return "form-change-status-gaji";
         }
         else if(gaji.getStatusPersetujuan()==1){
-            checkDisetujui = true;
+            checkDisetujuiDitolak = true;
             notChange = "Status Persetujuan Sudah Ditolak Tidak Dapat Diubah";
             model.addAttribute("notChange",notChange);
-            model.addAttribute("checkDisetujui", checkDisetujui);
+            model.addAttribute("checkDisetujuiDitolak", checkDisetujuiDitolak);
             model.addAttribute("gaji", gaji);
             model.addAttribute("role",roleService);
             return "form-change-status-gaji";

@@ -8,7 +8,7 @@
 </head>
 <body>
 <div th:replace="fragments/fragment :: navbar"></div>
-<div class="content-container">
+<div class="content-container fontsipayroll">
     <div class="container-fluid">
         <div class="card m-5 p-3 fontsipayroll">
             <h4 class="text-center mt">Change Lembur</h4>
@@ -27,24 +27,20 @@
                   
                     <input type="hidden" th:field="*{waktuSelesai}" class="form-control"/>
                     <br><br>
-                    <div th:if="${checkDisetujui}">
+                    <div th:if="${checkDisetujuiDitolak}">
                         <p th:text="${notChange}" class="alert alert-info" role="alert"></p>
-                        <select class="form-control form-control-lg" th:field="*{statusPersetujuan}" disabled>
-                            <option value="0" >Menunggu Status Persetujuan</option>
-                            <option value="1" >Ditolak</option>
-                            <option value="2" selected >Disetujui</option>
-                        </select>
+                        
                         <br>
                        <a class="btn btn-info" th:href="@{/lembur/viewall}">Kembali</a>
                     </div>
-                    <div th:unless="${checkDisetujui}">
+                    <div th:unless="${checkDisetujuiDitolak}">
                         <select class="form-control form-control-lg" th:field="*{statusPersetujuan}">
                             <option value="0" >Menunggu Status Persetujuan</option>
                             <option value="1" >Ditolak</option>
                             <option value="2" >Disetujui</option>
                         </select>
                         <br>
-                        <button class="btn btn-success" type="submit">Submit</button>
+                        <button class="btn btn-outline-info" type="submit">Submit</button>
                     </div>
                     
                     <input class="form-control" type="hidden" th:field="*{kompensasiPerJam}" disabled/>
@@ -58,15 +54,24 @@
                     <div th:if="${notMatch != null}">
                         <p th:text="${notMatch}" class="alert alert-info" role="alert"></p>
                     </div>
-                    
-                    Waktu Mulai: <br>
+                    <div th:if="${checkDisetujuiDitolak}">
+                        <p th:text="${notChange}" class="alert alert-info" role="alert"></p>
+                        <br>
+                       <a class="btn btn-info" th:href="@{/lembur/viewall}">Kembali</a>
+                    </div>
+
+                    <div th:unless="${checkDisetujuiDitolak}">
+                        Waktu Mulai: <br>
                     <input type="hidden" th:field="*{id}" class="form-control"/>
                     <input type="datetime-local" th:field="*{waktuMulai}" class="form-control"/>
                     <br><br>
             
                     Waktu Selesai: <br>
                     <input type="datetime-local" th:field="*{waktuSelesai}" class="form-control"/>
-                    <br><br>
+                    <br>
+                        <button class="btn btn-outline-info" type="submit">Submit</button>
+                    </div>
+                    
             
                     <select hidden class="form-control form-control-lg" th:field="*{statusPersetujuan}">
                         <option value="0" >Menunggu Status Persetujuan</option>
@@ -76,7 +81,6 @@
             
                     <input  class="form-control" type="hidden" th:field="*{kompensasiPerJam}" disabled/>
                     <br><br>
-                    <button class="btn btn-success" type="submit">Submit</button>
                 </form>
             </div>
     </div>

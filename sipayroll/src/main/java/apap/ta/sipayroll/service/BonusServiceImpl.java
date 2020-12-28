@@ -36,4 +36,14 @@ public class BonusServiceImpl implements BonusService{
         }
         return total;
     }
+
+    @Override
+    public List<BonusModel> findBonusByGaji(GajiModel gaji) {
+        return bonusDb.findByGaji(gaji);
+    }
+
+    @Override
+    public void deleteBonus(BonusModel bonus) {
+        bonusDb.delete(bonus);
+    }
 }
