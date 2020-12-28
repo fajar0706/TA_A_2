@@ -35,6 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/lembur/change").hasAnyAuthority("Kepala Departemen HR", "Staff Payroll", "Karyawan")
                 .antMatchers("/lembur/viewall").hasAnyAuthority("Kepala Departemen HR", "Staff Payroll", "Karyawan")
                 .antMatchers("/addLowongan").hasAnyAuthority("Staff Payroll")
+                .antMatchers("/bonus/add").hasAnyAuthority("Kepala Departemen HR","Kepala Bagian")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -57,6 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .withUser("admin").password(encoder().encode("admin123"))
 //                .roles("ADMIN");
 //    }
+
 
     @Autowired
     private UserDetailsService userDetailsService;
