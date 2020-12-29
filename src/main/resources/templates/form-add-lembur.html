@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Add Lembur </title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<div th:replace="fragments/fragment :: navbar"></div>
+<div class="content-container fontsipayroll">
+    <div class="container-fluid">
+<div class="card m-5 p-3">
+    <h4 class="text-center" style="font-family: Poppins;font-weight: bold;">Add Lembur</h4>
+    <form class="post-form; text-center" th:action="@{/lembur/add}"th:object="${lembur}" method="POST">
+        <div th:if="${notMatch != null}">
+            <p th:text="${notMatch}" class="alert alert-info" role="alert"></p>
+        </div>
+        <br>
+        Waktu Mulai: <br>
+        <input type="datetime-local" th:field="*{waktuMulai}" class="form-control"/>
+        <br><br>
+
+        Waktu Selesai: <br>
+        <input type="datetime-local" th:field="*{waktuSelesai}" class="form-control"/>
+        <br><br>
+
+        <select hidden class="form-control form-control-lg" th:field="*{statusPersetujuan}">
+            <option value="0" selected="selected">Menunggu Status Persetujuan</option>
+            <option value="1" >Ditolak</option>
+            <option value="2" >Disetujui</option>
+        </select>
+
+        Kompensasi Per Jam: <br>
+        <input class="form-control" type="text" th:field="*{kompensasiPerJam}" disabled/>
+        <br><br>
+        <button class="btn btn-outline-info" type="submit">Submit</button>
+    </form>
+</div>
+    </div>
+</div>
+</body>
+</html>

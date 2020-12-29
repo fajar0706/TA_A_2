@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Update Gaji </title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+    <div th:replace="fragments/fragment :: navbar"></div>
+    <div class="content-container fontsipayroll">
+        <div class="container-fluid">
+            <div class="card m-5 p-3">
+                <h4 class="text-center" style="font-family: Poppins;font-weight: bold;">Change Status Gaji</h4>
+                <form th:action="@{/gaji/change/status/{id}(id=${gaji.id})}"th:object="${gaji}" method="POST">
+                    <input type="hidden" th:field="${gaji.id}"/>
+                    <input type="hidden" id="uuid_user" th:field="${gaji.user}"/>
+                    <input type="hidden"  id="gajiPokok" th:field="${gaji.gajiPokok}" />
+                    <input type="hidden"  id="tanggalMasuk" th:field="${gaji.tanggalMasuk}"/>
+                    <div th:if="${checkDisetujuiDitolak}">
+                        <p th:text="${notChange}" class="alert alert-info" role="alert"></p>
+                        <a class="btn btn-info" th:href="@{/gaji/viewall}">Kembali</a>
+                    </div>
+                    <div th:unless="${checkDisetujuiDitolak}">
+                        <select class="form-control form-control-lg" th:field="*{statusPersetujuan}">
+                            <option value="0" >Menunggu Status Persetujuan</option>
+                            <option value="1" >Ditolak</option>
+                            <option value="2" >Disetujui</option>
+                        </select>
+                        <br>
+                        <button class="btn btn-outline-info" type="submit">Submit</button>
+                    </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+        
+
+
+</body>
+</html>

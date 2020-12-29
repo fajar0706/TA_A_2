@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Change Lembur </title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<div th:replace="fragments/fragment :: navbar"></div>
+<div class="content-container fontsipayroll">
+    <div class="container-fluid">
+        <div class="card m-5 p-3 fontsipayroll">
+            <h4 class="text-center mt">Change Lembur</h4>
+            <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Kepala Departemen HR') OR #strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Staff Payroll')}">
+                
+                <form class="post-form; text-center" th:action="@{/lembur/change}"th:object="${lembur}" method="POST">
+                    <br>
+                    <div th:if="${notMatch != null}">
+                        <p th:text="${notMatch}" class="alert alert-info" role="alert"></p>
+                    </div>
+                    
+                    <input type="hidden" th:field="*{id}" class="form-control"/>
+                    <input type="hidden" th:field="*{waktuMulai}" class="form-control"/>
+                    <br><br>
+            
+                  
+                    <input type="hidden" th:field="*{waktuSelesai}" class="form-control"/>
+                    <br><br>
+                    <div th:if="${checkDisetujuiDitolak}">
+                        <p th:text="${notChange}" class="alert alert-info" role="alert"></p>
+                        
+                        <br>
+                       <a class="btn btn-info" th:href="@{/lembur/viewall}">Kembali</a>
+                    </div>
+                    <div th:unless="${checkDisetujuiDitolak}">
+                        <select class="form-control form-control-lg" th:field="*{statusPersetujuan}">
+                            <option value="0" >Menunggu Status Persetujuan</option>
+                            <option value="1" >Ditolak</option>
+                            <option value="2" >Disetujui</option>
+                        </select>
+                        <br>
+                        <button class="btn btn-outline-info" type="submit">Submit</button>
+                    </div>
+                    
+                    <input class="form-control" type="hidden" th:field="*{kompensasiPerJam}" disabled/>
+                    <br><br>
+                    
+                </form>
+            </div>
+            <div th:if="${#strings.equals(role.determineRole(#httpServletRequest.userPrincipal.name),'Karyawan')}">
+                <form class="post-form; text-center" th:action="@{/lembur/change}"th:object="${lembur}" method="POST">
+                    <br>
+                    <div th:if="${notMatch != null}">
+                        <p th:text="${notMatch}" class="alert alert-info" role="alert"></p>
+                    </div>
+                    <div th:if="${checkDisetujuiDitolak}">
+                        <p th:text="${notChange}" class="alert alert-info" role="alert"></p>
+                        <br>
+                       <a class="btn btn-info" th:href="@{/lembur/viewall}">Kembali</a>
+                    </div>
+
+                    <div th:unless="${checkDisetujuiDitolak}">
+                        Waktu Mulai: <br>
+                    <input type="hidden" th:field="*{id}" class="form-control"/>
+                    <input type="datetime-local" th:field="*{waktuMulai}" class="form-control"/>
+                    <br><br>
+            
+                    Waktu Selesai: <br>
+                    <input type="datetime-local" th:field="*{waktuSelesai}" class="form-control"/>
+                    <br>
+                        <button class="btn btn-outline-info" type="submit">Submit</button>
+                    </div>
+                    
+            
+                    <select hidden class="form-control form-control-lg" th:field="*{statusPersetujuan}">
+                        <option value="0" >Menunggu Status Persetujuan</option>
+                        <option value="1" >Ditolak</option>
+                        <option value="2" >Disetujui</option>
+                    </select>
+            
+                    <input  class="form-control" type="hidden" th:field="*{kompensasiPerJam}" disabled/>
+                    <br><br>
+                </form>
+            </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

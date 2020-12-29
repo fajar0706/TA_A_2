@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title> Delete Gaji </title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+
+</head>
+<body>
+<div th:replace="fragments/fragment :: navbar"></div>
+<div class="content-container fontsipayroll">
+    <div class="container-fluid">
+<div class="mt-5 card-body con text-center">
+    <h2>Hapus Gaji Pegawai</h2>
+    <section class ="add-user-block">
+        <div class="row">
+            <div class="col-md-10 mx-auto add-user-sec">
+                <div class="card">
+                    <div class="card-body con text-center">
+                        <br>
+                        <p class="card-text" th:text="'Gaji Pegawai ' + ${user.username} + ' berhasil dihapus'"></p>
+                        <br>
+                        <a th:href="@{/gaji/viewall}" class="btn btn-outline-info" style="width:25%">Lihat Daftar Gaji</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</div>
+</div>
+</body>
+</html>

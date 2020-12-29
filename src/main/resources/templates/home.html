@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title> Home </title>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
+<link rel="stylesheet" type="text/css" href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
+
+
+</head>
+<body>      <div th:replace="fragments/fragment :: navbar"></div>
+            <div class="content-container fontsipayroll">
+            <div class="grey-bg container-fluid">
+              <div class="row">
+                <div class="col-12 mt-2 mb-1 text-center">
+                        <h2 class="fontsipayroll" style="color:#356592;;font-size:30px;font-weight: bold;"> Selamat Datang di SIPAYROLL</h2>
+                </div>
+              </div>
+              <div class="text-center mr-auto ml-auto fontsipayroll" style="font-size:15px;" >
+                <div class="table table-borderless ">
+                    <thead class="row ">
+                        <th>
+                            <div class="col-3 "></div>
+                        </th>
+    
+                        <th>
+                            <div class="col-xl-3 col-sm-6 " >
+                                <div class="card">
+                                  <div class="card-content">
+                                    <div class="card-body">
+                                      <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                          <h3 class="success fontsipayroll" >Gaji</h3>
+                                          <a th:href="@{/gaji/viewall}">Lihat Daftar Gaji</a>
+                                        </div>
+                                        <div class="align-self-center">
+                                          <i class="fas fa-wallet success font-large-2 float-right"></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                        </th>
+                        <th>
+                            <div class="col-xl-3 col-sm-6 col-12">
+                                <div class="card">
+                                  <div class="card-content">
+                                    <div class="card-body">
+                                      <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                          <h3 class="danger fontsipayroll">Lembur</h3>
+                                          <a th:href="@{/lembur/viewall}">Lihat Daftar Lembur</a>
+                                        </div>
+                                        <div class="align-self-center">
+                                          <i class="fas fa-clock danger font-large-2 float-right"></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                        </th>
+                        <th>
+                            <div class="col-xl-3 col-sm-6 col-12">
+                                <div class="card">
+                                  <div class="card-content">
+                                    <div class="card-body">
+                                      <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                          <h3 class="success fontsipayroll">Bonus</h3>
+                                          <a th:href="@{/bonus/add}">Tambahkan Bonus</a>
+                                        </div>
+                                        <div class="align-self-center">
+                                          <i class="fas fa-gift success font-large-2 float-right"></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                        </th>
+                        <th>
+                            <div class="col-xl-3 col-sm-6 col-12">
+                                <div class="card">
+                                  <div class="card-content">
+                                    <div class="card-body">
+                                      <div class="media d-flex">
+                                        <div class="media-body text-left">
+                                          <h3 class="danger fontsipayroll">Lowongan</h3>
+                                          <a th:href="@{/addLowongan}">Tambah Lowongan</a>
+                                        </div>
+                                        <div class="align-self-center">
+                                          <i class="fas fa-table danger font-large-2 float-right"></i>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                        </th>
+                        <th>
+                            <div class="col-3 "></div>
+                        </th>
+                    </thead>
+                </div>
+                  </div>
+        </div>
+            </div>
+
+</body>
+
+</html>

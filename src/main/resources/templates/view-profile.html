@@ -1,0 +1,77 @@
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title> Profile </title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+
+<body>
+<div th:replace="fragments/fragment :: navbar"></div>
+<div class="content-container fontsipayroll">
+    <div class="container-fluid">
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <h2 class="font-weight-bold mt-5">Your Profile</h2>
+    <div class=" border bg-light mt-2 mb-1" style="border-radius:30px;padding:0.5rem 6rem 0rem 6rem">
+        <table class="table table-borderless">
+            <tbody>
+            <tr>
+                <td class="font-weight-bold">Username</td>
+                <td class="font-weight-bold">:</td>
+                <td th:text="${user.username}"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">Id</td>
+                <td>: </td>
+                <td th:text="${user.id}"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">Role</td>
+                <td>: </td>
+                <td th:text="${user.role.nama}"></td>
+            </tr>
+            <div th:if="${pegawai != null}">
+                <tr>
+                    <td class="font-weight-bold">Nama</td>
+                    <td class="font-weight-bold">:</td>
+                    <td th:text="${pegawai.nama}"></td>
+                </tr>
+                <tr>
+                    <td class="font-weight-bold">Nomor Telepon</td>
+                    <td>: </td>
+                    <td th:text="${pegawai.noTelepon}"></td>
+                </tr>
+                <tr>
+                    <td class="font-weight-bold">Alamat</td>
+                    <td>: </td>
+                    <td th:text="${pegawai.alamat}"></td>
+                </tr>
+                <tr>
+                    <td class="font-weight-bold">Tempat Lahir</td>
+                    <td>: </td>
+                    <td th:text="${pegawai.tempatLahir}"></td>
+                </tr>
+                <tr>
+                    <td class="font-weight-bold">Tanggal Lahir</td>
+                    <td>: </td>
+                    <td th:text="${#dates.format(pegawai.tanggalLahir, 'dd/MM/yyyy')}"></td>
+                </tr>
+            </div>
+            <div th:unless="${pegawai != null}">
+            </div>
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+        <br>
+
+<div class="d-flex justify-content-center">
+    <a class="text-center btn btn-outline-info ml-3" href="/">Kembali</a>
+</div>
+    </div>
+</div>
+</body>
+</html>

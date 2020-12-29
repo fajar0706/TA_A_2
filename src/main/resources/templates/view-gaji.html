@@ -1,0 +1,71 @@
+<html lang="en" xmlns:th="http://thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title> Detail Gaji </title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+
+
+<body>
+<div th:replace="fragments/fragment :: navbar"></div>
+<div class="content-container fontsipayroll">
+    <div class="container-fluid">
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <h2 class="font-weight-bold mt-5">Detail Gaji</h2>
+    <div class=" border bg-light mt-2 mb-1" style="border-radius:30px;padding:0.5rem 6rem 0rem 6rem">
+        <table class="table table-borderless">
+            <tbody>
+                <tr>
+                    <td class="font-weight-bold">UUID User</td>
+                    <td class="font-weight-bold">:</td>
+                    <td th:text="${uuid}"></td>
+                </tr>
+            <tr>
+                <td class="font-weight-bold">Nama Pegawai</td>
+                <td class="font-weight-bold">:</td>
+                <td th:text="${gaji.user.username}"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">Gaji Pokok</td>
+                <td>: </td>
+                <td th:text="${gaji.gajiPokok}"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">Total Bonus</td>
+                <td>: </td>
+                <td th:text="${jumlahBonus}"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">Total Lembur</td>
+                <td>: </td>
+                <td th:text="${jumlahLembur}"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">Nama Penyetuju</td>
+                <td>: </td>
+                <td th:text="${gaji.userPenyetuju.username}"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">Nama Pengaju</td>
+                <td>: </td>
+                <td th:text="${gaji.userPengaju.username}"></td>
+            </tr>
+            <div th:if="${tidakPernahPelatihan}">
+                <tr>
+                    <td class="font-weight-bold">Notes</td>
+                    <td>: </td>
+                    <td >Gaji dipotong sebesar 10% dari Gaji Pokok</td>
+                </tr>
+            </div>
+            </tbody>
+        </table>
+    </div>
+</div>
+    </div>
+</div>
+
+<a class="btn btn-outline-info ml-3" href="/gaji/viewall">Kembali</a>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title> Login </title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body>
+
+            <div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto fontsipayroll">
+                <div class="card card0 border-0">
+                    <a class="navbar-brand text-center logo" style="color: #356592;" th:href="@{/}"> REGISTRASI SIPAYROLL</a> 
+                    <div class="row d-flex">
+                        <div class="col-lg-12">
+                            <div class="card2 card border-0 px-4 py-5">
+                                <form th:action="@{/user/addUser}" method="POST" class="form-group">
+                                    <div class="row px-3" th:if="${alert != null}">
+                                        <p class="alert alert-info" role="alert">Username sudah ada!</p>
+                                    </div>
+                                    <div class="row px-3"> 
+                                        <label class="mb-1">
+                                            <h6 class="mb-0 text-sm">Name</h6>
+                                        </label> 
+                                        <input type="text" name="nama" placeholder="Name"> </div>
+                                    <br>
+                                    <div class="row px-3"> 
+                                        <label class="mb-1">
+                                            <h6 class="mb-0 text-sm">Username</h6>
+                                        </label> 
+                                        <input type="text" name="username" placeholder="Masukkan username"> </div>
+                                    <br>
+                                <div class="row px-3"> 
+                                    <label class="mb-1">
+                                        <h6 class="mb-0 text-sm">Password</h6>
+                                    </label> 
+                                    <input type="password" name="password" placeholder="Masukkan password"> </div>
+                                    <br>
+                                <div class="row px-3"> 
+                                    <label class="mb-1">
+                                        <h6 class="mb-0 text-sm">No Telepon</h6>
+                                    </label> 
+                                    <input type="number" name="noTelepon" placeholder="No Telepon"> </div>
+                                    <br>
+                                    <div class="row px-3"> 
+                                        <label class="mb-1">
+                                            <h6 class="mb-0 text-sm">Tempat Lahir</h6>
+                                        </label> 
+                                        <input type="text" name="tempatLahir"  placeholder="Tempat Lahir"> </div>
+                                        <br>
+                                <div class="row px-3"> 
+                                        <label class="mb-1">
+                                            <h6 class="mb-0 text-sm">Tanggal Lahir</h6>
+                                        </label> 
+                                        <input type="date" name="tanggalLahir" placeholder="Tanggal Lahir"> </div>
+                                        <br>
+                                <div class="row px-3"> 
+                                        <label class="mb-1">
+                                            <h6 class="mb-0 text-sm">Alamat</h6>
+                                        </label> 
+                                        <input type="text" name="alamat" placeholder="Alamat"> </div>
+                                        <br>
+                                <div class="row px-3">
+                                    <label class="mb-1">
+                                        <h6 class="mb-0 text-sm">Role</h6>
+                                    </label> 
+                                    <select name="role" class="">
+                                        <option selected value=""  style="color: #BDBDBD" >Pilih Role</option>
+                                        <option th:each="role : ${listRole}" th:value="${role.id}" th:text="${role.nama}"></option>
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="row mb-3 px-3"> <button type="submit" class="btn btn-blue text-center">Sign Up</button> </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+           
+</body>
+
+</html>
+</body>
+
+</html>
